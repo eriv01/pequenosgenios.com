@@ -4,730 +4,253 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Guia dos Projetos Robóticos</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --red:       #e8372a;
-      --red-light: #ff5a4a;
-      --orange:    #f97316;
-      --cream:     #fdf6ee;
-      --cream2:    #fef9f3;
-      --gray:      #6b7280;
-      --dark:      #1a1a2e;
-      --green:     #22c55e;
-      --yellow:    #fbbf24;
-      --blue:      #3b82f6;
-    }
-
-    html, body {
-      width: 100%;
-      overflow-x: hidden;
-      background: var(--cream);
-      font-family: 'Nunito', sans-serif;
-      color: var(--dark);
-    }
-
-    /* ── ROBOT BG PATTERN ── */
-    .robot-bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      overflow: hidden;
-      opacity: 0.045;
-    }
-    .robot-bg svg {
-      width: 100%;
-      height: 100%;
-    }
-
-    /* ── TOP BAR ── */
-    .topbar {
-      position: relative;
-      z-index: 2;
-      background: var(--red);
-      padding: 10px 20px;
-      text-align: center;
-      overflow: hidden;
-    }
-    .topbar::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 20px,
-        rgba(255,255,255,0.06) 20px,
-        rgba(255,255,255,0.06) 21px
-      );
-    }
-    .topbar p {
-      font-family: 'Nunito', sans-serif;
-      font-size: 11px;
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: 0.3px;
-      text-transform: uppercase;
-      position: relative;
-      z-index: 1;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .topbar p span {
-      background: #fff;
-      color: var(--red);
-      padding: 1px 6px;
-      border-radius: 4px;
-      margin: 0 2px;
-    }
-
-    /* ── PAGE WRAP ── */
-    .page {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-
-    /* ── HERO ── */
-    .hero {
-      background: var(--cream);
-      padding: 32px 24px 28px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* blob decorativo */
-    .blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(40px);
-      pointer-events: none;
-      z-index: 0;
-    }
-    .blob-1 {
-      width: 220px; height: 220px;
-      background: rgba(251,191,36,0.18);
-      top: -60px; left: -60px;
-    }
-    .blob-2 {
-      width: 180px; height: 180px;
-      background: rgba(232,55,42,0.1);
-      top: 40px; right: -50px;
-    }
-    .blob-3 {
-      width: 160px; height: 160px;
-      background: rgba(59,130,246,0.1);
-      bottom: -40px; left: 30%;
-    }
-
-    /* mini gear decorativo */
-    .gear {
-      position: absolute;
-      opacity: 0.08;
-      animation: spin var(--spd) linear infinite;
-      z-index: 0;
-    }
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-
-    .eyebrow {
-      position: relative;
-      z-index: 1;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .eyebrow::before {
-      content: '';
-      width: 24px; height: 2px;
-      background: var(--orange);
-      border-radius: 2px;
-      display: inline-block;
-    }
-
-    /* headline com efeito de construção */
-    .headline {
-      position: relative;
-      z-index: 1;
-      font-family: 'Nunito', sans-serif;
-      font-size: clamp(20px, 5.8vw, 30px);
-      font-weight: 900;
-      line-height: 1.25;
-      color: var(--dark);
-      margin-bottom: 16px;
-      word-break: keep-all;
-      overflow-wrap: normal;
-      hyphens: none;
-    }
-    .headline .highlight {
-      color: var(--red);
-      position: relative;
-      display: inline-block;
-    }
-    /* sublinhado animado */
-    .headline .highlight::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 0;
-      height: 3px;
-      background: var(--red);
-      border-radius: 2px;
-      animation: underlineGrow 1.2s ease 0.8s forwards;
-    }
-    @keyframes underlineGrow {
-      to { width: 100%; }
-    }
-
-    /* efeito de digitação na headline */
-    .typed-char {
-      display: inline-block;
-      opacity: 0;
-      transform: translateY(8px) scale(0.9);
-      animation: charIn 0.04s ease forwards;
-    }
-    @keyframes charIn {
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    .subtext {
-      position: relative;
-      z-index: 1;
-      font-size: 14px;
-      font-weight: 400;
-      color: var(--gray);
-      line-height: 1.65;
-      margin-bottom: 28px;
-      max-width: 400px;
-    }
-
-    /* ── BENEFIT LIST ── */
-    .benefits {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .benefit-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: #fff;
-      border-radius: 14px;
-      padding: 13px 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      border: 1px solid rgba(0,0,0,0.04);
-      animation: slideIn 0.5s ease both;
-    }
+    :root { --red:#e8372a; --orange:#f97316; --cream:#fdf6ee; --cream2:#fef9f3; --gray:#6b7280; --dark:#1a1a2e; --green:#22c55e; --yellow:#fbbf24; --blue:#3b82f6; }
+    html, body { width: 100%; overflow-x: hidden; background: var(--cream); font-family: 'Nunito', sans-serif; color: var(--dark); }
+    .robot-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; opacity: 0.04; }
+    .robot-bg svg { width: 100%; height: 100%; }
+    .topbar { position: relative; z-index: 2; background: var(--red); padding: 10px 20px; text-align: center; }
+    .topbar p { font-size: 11px; font-weight: 800; color: #fff; letter-spacing: 0.3px; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .topbar p span { background: #fff; color: var(--red); padding: 1px 6px; border-radius: 4px; margin: 0 2px; }
+    .page { position: relative; z-index: 1; width: 100%; max-width: 480px; margin: 0 auto; }
+    .hero { background: var(--cream); padding: 32px 24px 28px; position: relative; overflow: hidden; }
+    .blob { position: absolute; border-radius: 50%; filter: blur(40px); pointer-events: none; z-index: 0; }
+    .blob-1 { width: 220px; height: 220px; background: rgba(251,191,36,0.18); top: -60px; left: -60px; }
+    .blob-2 { width: 180px; height: 180px; background: rgba(232,55,42,0.1); top: 40px; right: -50px; }
+    .blob-3 { width: 160px; height: 160px; background: rgba(59,130,246,0.1); bottom: -40px; left: 30%; }
+    .gear { position: absolute; opacity: 0.08; animation: spin var(--spd) linear infinite; z-index: 0; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .eyebrow { position: relative; z-index: 1; font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
+    .eyebrow::before { content: ''; width: 24px; height: 2px; background: var(--orange); border-radius: 2px; display: inline-block; }
+    .headline { position: relative; z-index: 1; font-size: clamp(20px, 5.8vw, 30px); font-weight: 900; line-height: 1.25; color: var(--dark); margin-bottom: 16px; word-break: keep-all; hyphens: none; }
+    .headline .highlight { color: var(--red); position: relative; display: inline-block; }
+    .headline .highlight::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 3px; background: var(--red); border-radius: 2px; animation: underlineGrow 1.2s ease 0.8s forwards; }
+    @keyframes underlineGrow { to { width: 100%; } }
+    .typed-char { display: inline-block; opacity: 0; transform: translateY(8px) scale(0.9); animation: charIn 0.04s ease forwards; }
+    @keyframes charIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+    .subtext { position: relative; z-index: 1; font-size: 14px; color: var(--gray); line-height: 1.65; margin-bottom: 28px; }
+    .benefits { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .benefit-item { display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 14px; padding: 13px 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); animation: slideIn 0.5s ease both; }
     .benefit-item:nth-child(1) { animation-delay: 0.3s; border-left: 3px solid var(--red); }
     .benefit-item:nth-child(2) { animation-delay: 0.45s; border-left: 3px solid var(--orange); }
     .benefit-item:nth-child(3) { animation-delay: 0.6s; border-left: 3px solid var(--yellow); }
     .benefit-item:nth-child(4) { animation-delay: 0.75s; border-left: 3px solid var(--blue); }
-
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(-16px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
-
-    .benefit-icon {
-      width: 38px; height: 38px;
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-      flex-shrink: 0;
-    }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-16px); } to { opacity: 1; transform: translateX(0); } }
+    .benefit-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
     .benefit-item:nth-child(1) .benefit-icon { background: #fff0ef; }
     .benefit-item:nth-child(2) .benefit-icon { background: #fff7ed; }
     .benefit-item:nth-child(3) .benefit-icon { background: #fffbeb; }
     .benefit-item:nth-child(4) .benefit-icon { background: #eff6ff; }
+    .benefit-text { font-size: 13px; font-weight: 700; color: var(--dark); line-height: 1.3; }
+    .trust-badges { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
+    .trust-badge { display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; }
+    .trust-badge .dot { width: 14px; height: 14px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #fff; }
+    .btn-cta { display: block; width: 100%; background: var(--red); color: #fff; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; padding: 18px 24px; border-radius: 14px; text-align: center; text-decoration: none; position: relative; overflow: hidden; box-shadow: 0 6px 20px rgba(232,55,42,0.35); animation: pulse-btn 2s ease-in-out infinite; transition: transform 0.18s; }
+    .btn-cta::before { content: ''; position: absolute; top: 0; left: -80%; width: 55%; height: 100%; background: linear-gradient(to right, transparent, rgba(255,255,255,0.25), transparent); transform: skewX(-18deg); animation: shimmer 2.4s ease infinite; }
+    .btn-cta:active { transform: scale(0.97); }
+    @keyframes pulse-btn { 0%,100% { box-shadow: 0 6px 20px rgba(232,55,42,0.35); } 50% { box-shadow: 0 8px 28px rgba(232,55,42,0.55); } }
+    @keyframes shimmer { 0% { left: -80%; } 100% { left: 130%; } }
 
-    .benefit-text {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--dark);
-      line-height: 1.3;
-    }
+    /* VIDEO */
+    .video-section { background: #fff; padding: 36px 20px 32px; }
+    .section-title { font-size: clamp(18px, 5vw, 22px); font-weight: 900; color: var(--dark); text-align: center; text-transform: uppercase; line-height: 1.25; margin-bottom: 8px; }
+    .section-line { width: 40px; height: 3px; background: var(--red); border-radius: 2px; margin: 0 auto 28px; }
+    .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .video-card { border-radius: 14px; overflow: hidden; background: var(--dark); position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.15); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .video-card video { width: 100%; aspect-ratio: 9/16; object-fit: cover; display: block; }
+    .video-label { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.88), transparent); padding: 32px 10px 10px; font-size: 10px; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; line-height: 1.3; }
+    .video-play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 44px; height: 44px; background: rgba(255,255,255,0.18); border: 2px solid rgba(255,255,255,0.7); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; backdrop-filter: blur(4px); transition: opacity 0.25s; pointer-events: none; }
+    .video-card.playing .video-play-btn { opacity: 0; }
 
-    /* ── TRUST BADGES ── */
-    .trust-badges {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 28px;
-      flex-wrap: wrap;
-    }
-    .trust-badge {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--gray);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .trust-badge .dot {
-      width: 14px; height: 14px;
-      background: var(--green);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 8px;
-      color: #fff;
-    }
-
-    /* ── IDEAL PARA ── */
-    .ideal-section {
-      background: var(--cream2);
-      padding: 32px 20px;
-      position: relative;
-      overflow: hidden;
-    }
-    .ideal-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-    .ideal-card {
-      border-radius: 16px;
-      padding: 18px 14px;
-    }
-    .ideal-card.yes {
-      background: #f0fdf4;
-      border: 1.5px solid #86efac;
-    }
-    .ideal-card.no {
-      background: #fff5f5;
-      border: 1.5px solid #fca5a5;
-    }
-    .ideal-card-title {
-      font-size: 12px;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+    /* IDEAL */
+    .ideal-section { background: var(--cream2); padding: 32px 20px; }
+    .ideal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .ideal-card { border-radius: 16px; padding: 18px 14px; }
+    .ideal-card.yes { background: #f0fdf4; border: 1.5px solid #86efac; }
+    .ideal-card.no { background: #fff5f5; border: 1.5px solid #fca5a5; }
+    .ideal-card-title { font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
     .ideal-card.yes .ideal-card-title { color: #16a34a; }
-    .ideal-card.no  .ideal-card-title { color: #dc2626; }
-    .ideal-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 7px;
-      margin-bottom: 10px;
-      font-size: 11px;
-      font-weight: 600;
-      line-height: 1.4;
-    }
+    .ideal-card.no .ideal-card-title { color: #dc2626; }
+    .ideal-item { display: flex; align-items: flex-start; gap: 7px; margin-bottom: 10px; font-size: 11px; font-weight: 600; line-height: 1.4; }
     .ideal-card.yes .ideal-item { color: #166534; }
-    .ideal-card.no  .ideal-item { color: #991b1b; }
-    .ideal-icon {
-      width: 16px; height: 16px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 9px;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
+    .ideal-card.no .ideal-item { color: #991b1b; }
+    .ideal-icon { width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; flex-shrink: 0; margin-top: 1px; }
     .ideal-card.yes .ideal-icon { background: #16a34a; color: #fff; }
-    .ideal-card.no  .ideal-icon { background: #dc2626; color: #fff; }
+    .ideal-card.no .ideal-icon { background: #dc2626; color: #fff; }
 
-    /* ── TESTIMONIALS CAROUSEL ── */
-    .testimonials-section {
-      background: var(--cream);
-      padding: 8px 0 16px;
-      overflow: hidden;
-      position: relative;
-    }
-    .carousel-track {
-      display: flex;
-      gap: 12px;
-      padding: 8px 20px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      animation: autoScroll 28s linear infinite;
-    }
+    /* DEPOIMENTOS */
+    .testimonials-section { background: var(--cream); padding: 8px 0 16px; overflow: hidden; }
+    .carousel-track { display: flex; gap: 12px; padding: 8px 20px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; animation: autoScroll 30s linear infinite; }
     .carousel-track::-webkit-scrollbar { display: none; }
     .carousel-track:hover { animation-play-state: paused; }
-
-    @keyframes autoScroll {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
-    .tcard {
-      flex-shrink: 0;
-      width: 220px;
-      background: #fff;
-      border-radius: 14px;
-      padding: 14px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-      border: 1px solid rgba(0,0,0,0.05);
-      scroll-snap-align: start;
-    }
-    .tcard-stars {
-      color: var(--yellow);
-      font-size: 13px;
-      margin-bottom: 8px;
-      letter-spacing: 1px;
-    }
-    .tcard-text {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--dark);
-      line-height: 1.5;
-      margin-bottom: 10px;
-    }
-    .tcard-author {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--gray);
-    }
-    .tcard-author span {
-      display: block;
-      font-size: 10px;
-      font-weight: 400;
-      color: #9ca3af;
-    }
-    .cta-wrap {
-      position: relative;
-      z-index: 1;
-    }
-    .btn-cta {
-      display: block;
-      width: 100%;
-      background: var(--red);
-      color: #fff;
-      font-family: 'Nunito', sans-serif;
-      font-size: 16px;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 18px 24px;
-      border-radius: 14px;
-      text-align: center;
-      text-decoration: none;
-      border: none;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(232,55,42,0.35), 0 2px 0 rgba(0,0,0,0.15) inset;
-      animation: pulse-btn 2s ease-in-out infinite;
-      transition: transform 0.18s;
-    }
-    .btn-cta::before {
-      content: '';
-      position: absolute;
-      top: 0; left: -80%;
-      width: 55%; height: 100%;
-      background: linear-gradient(to right, transparent, rgba(255,255,255,0.25), transparent);
-      transform: skewX(-18deg);
-      animation: shimmer 2.4s ease infinite;
-    }
-    .btn-cta:active { transform: scale(0.97); }
-
-    @keyframes pulse-btn {
-      0%,100% { box-shadow: 0 6px 20px rgba(232,55,42,0.35), 0 2px 0 rgba(0,0,0,0.15) inset; }
-      50%      { box-shadow: 0 8px 28px rgba(232,55,42,0.55), 0 2px 0 rgba(0,0,0,0.15) inset; }
-    }
-    @keyframes shimmer {
-      0%   { left: -80%; }
-      100% { left: 130%; }
-    }
+    @keyframes autoScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .tcard { flex-shrink: 0; width: 220px; background: #fff; border-radius: 14px; padding: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); border: 1px solid rgba(0,0,0,0.05); }
+    .tcard-stars { color: var(--yellow); font-size: 13px; margin-bottom: 8px; }
+    .tcard-text { font-size: 12px; font-weight: 600; color: var(--dark); line-height: 1.5; margin-bottom: 10px; }
+    .tcard-author { font-size: 11px; font-weight: 700; color: var(--gray); }
+    .tcard-author span { display: block; font-size: 10px; font-weight: 400; color: #9ca3af; }
   </style>
 </head>
 <body>
 
-  <!-- ROBOT BACKGROUND PATTERN -->
-  <div class="robot-bg">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice">
-      <defs>
-        <pattern id="robotpat" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
-          <!-- mini robot head -->
-          <rect x="28" y="10" width="24" height="20" rx="4" fill="none" stroke="#e8372a" stroke-width="1.5"/>
-          <circle cx="34" cy="18" r="3" fill="#e8372a"/>
-          <circle cx="46" cy="18" r="3" fill="#e8372a"/>
-          <rect x="34" y="25" width="12" height="2" rx="1" fill="#e8372a"/>
-          <!-- antenna -->
-          <line x1="40" y1="10" x2="40" y2="5" stroke="#e8372a" stroke-width="1.5"/>
-          <circle cx="40" cy="4" r="2" fill="#e8372a"/>
-          <!-- body -->
-          <rect x="24" y="32" width="32" height="22" rx="4" fill="none" stroke="#e8372a" stroke-width="1.5"/>
-          <rect x="30" y="37" width="8" height="8" rx="2" fill="none" stroke="#e8372a" stroke-width="1"/>
-          <rect x="42" y="37" width="8" height="8" rx="2" fill="none" stroke="#e8372a" stroke-width="1"/>
-          <!-- arms -->
-          <rect x="14" y="33" width="8" height="14" rx="4" fill="none" stroke="#e8372a" stroke-width="1.5"/>
-          <rect x="58" y="33" width="8" height="14" rx="4" fill="none" stroke="#e8372a" stroke-width="1.5"/>
-          <!-- gear decorativo -->
-          <circle cx="65" cy="65" r="6" fill="none" stroke="#f97316" stroke-width="1"/>
-          <circle cx="65" cy="65" r="3" fill="none" stroke="#f97316" stroke-width="1"/>
-          <!-- circuit lines -->
-          <line x1="5" y1="55" x2="15" y2="55" stroke="#3b82f6" stroke-width="1"/>
-          <line x1="15" y1="55" x2="15" y2="65" stroke="#3b82f6" stroke-width="1"/>
-          <line x1="15" y1="65" x2="25" y2="65" stroke="#3b82f6" stroke-width="1"/>
-          <circle cx="15" cy="55" r="1.5" fill="#3b82f6"/>
-          <circle cx="15" cy="65" r="1.5" fill="#3b82f6"/>
-        </pattern>
-      </defs>
-      <rect width="400" height="800" fill="url(#robotpat)"/>
+<div class="robot-bg">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <pattern id="rp" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+        <rect x="28" y="10" width="24" height="20" rx="4" fill="none" stroke="#e8372a" stroke-width="1.5"/>
+        <circle cx="34" cy="18" r="3" fill="#e8372a"/><circle cx="46" cy="18" r="3" fill="#e8372a"/>
+        <rect x="34" y="25" width="12" height="2" rx="1" fill="#e8372a"/>
+        <line x1="40" y1="10" x2="40" y2="5" stroke="#e8372a" stroke-width="1.5"/><circle cx="40" cy="4" r="2" fill="#e8372a"/>
+        <rect x="24" y="32" width="32" height="22" rx="4" fill="none" stroke="#e8372a" stroke-width="1.5"/>
+        <rect x="30" y="37" width="8" height="8" rx="2" fill="none" stroke="#e8372a" stroke-width="1"/>
+        <rect x="42" y="37" width="8" height="8" rx="2" fill="none" stroke="#e8372a" stroke-width="1"/>
+        <rect x="14" y="33" width="8" height="14" rx="4" fill="none" stroke="#e8372a" stroke-width="1.5"/>
+        <rect x="58" y="33" width="8" height="14" rx="4" fill="none" stroke="#e8372a" stroke-width="1.5"/>
+        <circle cx="65" cy="65" r="6" fill="none" stroke="#f97316" stroke-width="1"/>
+        <line x1="5" y1="55" x2="25" y2="55" stroke="#3b82f6" stroke-width="1"/>
+        <circle cx="15" cy="55" r="1.5" fill="#3b82f6"/>
+      </pattern>
+    </defs>
+    <rect width="400" height="800" fill="url(#rp)"/>
+  </svg>
+</div>
+
+<div class="page">
+
+  <div class="topbar">
+    <p>⚡ Oferta válida somente <span>HOJE</span> — 27/03/2026 ⚡</p>
+  </div>
+
+  <section class="hero">
+    <div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div>
+    <svg class="gear" style="width:80px;top:20px;right:20px;--spd:12s" viewBox="0 0 50 50" fill="none">
+      <path d="M25 15a10 10 0 100 20 10 10 0 000-20zm0 15a5 5 0 110-10 5 5 0 010 10z" fill="#f97316"/>
+      <path d="M25 8v4M25 38v4M8 25h4M38 25h4" stroke="#f97316" stroke-width="2.5" stroke-linecap="round"/>
     </svg>
-  </div>
-
-  <div class="page">
-
-    <!-- TOP BAR -->
-    <div class="topbar">
-      <p>⚡ Oferta válida somente <span>HOJE</span> — 27/03/2026 ⚡</p>
+    <svg class="gear" style="width:50px;bottom:80px;left:10px;--spd:8s;animation-direction:reverse" viewBox="0 0 50 50" fill="none">
+      <path d="M25 15a10 10 0 100 20 10 10 0 000-20zm0 15a5 5 0 110-10 5 5 0 010 10z" fill="#3b82f6"/>
+      <path d="M25 8v4M25 38v4M8 25h4M38 25h4" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    <p class="eyebrow">Guia dos Projetos Robóticos</p>
+    <h1 class="headline" id="headline">Transforme materiais simples em projetos de <span class="highlight">robótica</span></h1>
+    <p class="subtext">Projetos simples, criativos e gravados em vídeo para você fazer em casa usando materiais fáceis de encontrar.</p>
+    <div class="benefits">
+      <div class="benefit-item"><div class="benefit-icon">🤖</div><span class="benefit-text">Projetos de robótica passo a passo em vídeo</span></div>
+      <div class="benefit-item"><div class="benefit-icon">🧠</div><span class="benefit-text">Estimula lógica, criatividade e raciocínio</span></div>
+      <div class="benefit-item"><div class="benefit-icon">🏠</div><span class="benefit-text">Ideal para fazer em casa ou na escola</span></div>
+      <div class="benefit-item"><div class="benefit-icon">👨‍👧</div><span class="benefit-text">Atividades que conectam adultos e crianças</span></div>
     </div>
+    <div class="trust-badges">
+      <div class="trust-badge"><div class="dot">✓</div>Acesso Imediato</div>
+      <div class="trust-badge"><div class="dot">✓</div>Conteúdo Vitalício</div>
+      <div class="trust-badge"><div class="dot">✓</div>Atualizações Inclusas</div>
+    </div>
+    <a href="#oferta" class="btn-cta">🚀 Quero Acessar Agora</a>
+  </section>
 
-    <!-- HERO -->
-    <section class="hero">
+  <!-- VÍDEOS -->
+  <section class="video-section">
+    <h2 class="section-title">Veja alguns exemplos de projetos que você vai aprender</h2>
+    <div class="section-line"></div>
+    <div class="video-grid">
+      <div class="video-card"><video playsinline muted preload="none" data-src="https://doram.shop/wp-content/uploads/2026/01/videoplayback.mp4"></video><div class="video-play-btn">▶</div><div class="video-label">Projeto Exemplo<br>Troque este texto</div></div>
+      <div class="video-card"><video playsinline muted preload="none" data-src="https://doram.shop/wp-content/uploads/2026/01/videoplayback.mp4"></video><div class="video-play-btn">▶</div><div class="video-label">Projeto Exemplo<br>Troque este texto</div></div>
+      <div class="video-card"><video playsinline muted preload="none" data-src="https://doram.shop/wp-content/uploads/2026/01/videoplayback.mp4"></video><div class="video-play-btn">▶</div><div class="video-label">Projeto Exemplo<br>Troque este texto</div></div>
+      <div class="video-card"><video playsinline muted preload="none" data-src="https://doram.shop/wp-content/uploads/2026/01/videoplayback.mp4"></video><div class="video-play-btn">▶</div><div class="video-label">Projeto Exemplo<br>Troque este texto</div></div>
+      <div class="video-card"><video playsinline muted preload="none" data-src="https://doram.shop/wp-content/uploads/2026/01/videoplayback.mp4"></video><div class="video-play-btn">▶</div><div class="video-label">Projeto Exemplo<br>Troque este texto</div></div>
+      <div class="video-card"><video playsinline muted preload="none" data-src="https://doram.shop/wp-content/uploads/2026/01/videoplayback.mp4"></video><div class="video-play-btn">▶</div><div class="video-label">Projeto Exemplo<br>Troque este texto</div></div>
+    </div>
+  </section>
 
-      <!-- blobs decorativos -->
-      <div class="blob blob-1"></div>
-      <div class="blob blob-2"></div>
-      <div class="blob blob-3"></div>
-
-      <!-- gears decorativos -->
-      <svg class="gear" style="width:80px;top:20px;right:20px;--spd:12s" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M25 15a10 10 0 100 20 10 10 0 000-20zm0 15a5 5 0 110-10 5 5 0 010 10z" fill="#f97316"/>
-        <path d="M25 8v4M25 38v4M8 25h4M38 25h4M12.2 12.2l2.8 2.8M35 35l2.8 2.8M12.2 37.8l2.8-2.8M35 15l2.8-2.8" stroke="#f97316" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>
-
-      <svg class="gear" style="width:50px;bottom:80px;left:10px;--spd:8s;animation-direction:reverse" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M25 15a10 10 0 100 20 10 10 0 000-20zm0 15a5 5 0 110-10 5 5 0 010 10z" fill="#3b82f6"/>
-        <path d="M25 8v4M25 38v4M8 25h4M38 25h4M12.2 12.2l2.8 2.8M35 35l2.8 2.8M12.2 37.8l2.8-2.8M35 15l2.8-2.8" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>
-
-      <!-- eyebrow -->
-      <p class="eyebrow">Guia dos Projetos Robóticos</p>
-
-      <!-- headline com chars animados -->
-      <h1 class="headline" id="headline">
-        Transforme materiais simples em projetos de <span class="highlight">robótica</span>
-      </h1>
-
-      <!-- subtext -->
-      <p class="subtext">
-        Projetos simples, criativos e gravados em vídeo para você fazer em casa usando materiais fáceis de encontrar.
-      </p>
-
-      <!-- benefit list -->
-      <div class="benefits">
-        <div class="benefit-item">
-          <div class="benefit-icon">🤖</div>
-          <span class="benefit-text">Projetos de robótica passo a passo em vídeo</span>
-        </div>
-        <div class="benefit-item">
-          <div class="benefit-icon">🧠</div>
-          <span class="benefit-text">Estimula lógica, criatividade e raciocínio</span>
-        </div>
-        <div class="benefit-item">
-          <div class="benefit-icon">🏠</div>
-          <span class="benefit-text">Ideal para fazer em casa ou na escola</span>
-        </div>
-        <div class="benefit-item">
-          <div class="benefit-icon">👨‍👧</div>
-          <span class="benefit-text">Atividades que conectam adultos e crianças</span>
-        </div>
+  <!-- IDEAL PARA -->
+  <section class="ideal-section">
+    <div class="ideal-grid">
+      <div class="ideal-card yes">
+        <p class="ideal-card-title">✅ Ideal para:</p>
+        <div class="ideal-item"><div class="ideal-icon">✓</div>Pais que querem atividades inteligentes para os filhos</div>
+        <div class="ideal-item"><div class="ideal-icon">✓</div>Educadores e professores</div>
+        <div class="ideal-item"><div class="ideal-icon">✓</div>Quem busca ideias criativas para fazer em casa</div>
+        <div class="ideal-item"><div class="ideal-icon">✓</div>Crianças curiosas e criativas</div>
       </div>
-
-      <!-- trust badges -->
-      <div class="trust-badges">
-        <div class="trust-badge">
-          <div class="dot">✓</div>
-          Acesso Imediato
-        </div>
-        <div class="trust-badge">
-          <div class="dot">✓</div>
-          Conteúdo Vitalício
-        </div>
-        <div class="trust-badge">
-          <div class="dot">✓</div>
-          Atualizações Inclusas
-        </div>
+      <div class="ideal-card no">
+        <p class="ideal-card-title">❌ Não é para:</p>
+        <div class="ideal-item"><div class="ideal-icon">✕</div>Quem busca apenas entretenimento sem aprendizado</div>
+        <div class="ideal-item"><div class="ideal-icon">✕</div>Quem não quer colocar a mão na massa</div>
       </div>
+    </div>
+  </section>
 
-      <!-- CTA -->
-      <div class="cta-wrap">
-        <a href="#oferta" class="btn-cta">🚀 Quero Acessar Agora</a>
-      </div>
+  <!-- DEPOIMENTOS -->
+  <section class="testimonials-section">
+    <div class="carousel-track">
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Melhor custo benefício! Meu filho não larga mais. Aprendeu mais em uma semana do que em meses."</p><p class="tcard-author">Lucas Martins<span>Pai de aluno</span></p></div>
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Meus filhos adoraram! Ficam pedindo pra fazer mais projetos. Vale muito a pena."</p><p class="tcard-author">Ana Silva<span>Mãe de dois filhos</span></p></div>
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Como professora indico demais! Os alunos ficam engajados e aprendem brincando."</p><p class="tcard-author">Carla Mendes<span>Professora</span></p></div>
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Minha filha de 8 anos fez o primeiro robô sozinha! A explicação em vídeo é perfeita."</p><p class="tcard-author">Roberto Alves<span>Pai de aluna</span></p></div>
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Incrível! Materiais fáceis de achar e projetos que realmente funcionam. Recomendo!"</p><p class="tcard-author">Fernanda Costa<span>Mãe e educadora</span></p></div>
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Meu filho se conectou de um jeito incrível. Atividade que recomendo a todos!"</p><p class="tcard-author">Patrícia Lima<span>Mãe de aluno</span></p></div>
+      <!-- duplicados para loop infinito -->
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Melhor custo benefício! Meu filho não larga mais. Aprendeu mais em uma semana do que em meses."</p><p class="tcard-author">Lucas Martins<span>Pai de aluno</span></p></div>
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Meus filhos adoraram! Ficam pedindo pra fazer mais projetos. Vale muito a pena."</p><p class="tcard-author">Ana Silva<span>Mãe de dois filhos</span></p></div>
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Como professora indico demais! Os alunos ficam engajados e aprendem brincando."</p><p class="tcard-author">Carla Mendes<span>Professora</span></p></div>
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Minha filha de 8 anos fez o primeiro robô sozinha! A explicação em vídeo é perfeita."</p><p class="tcard-author">Roberto Alves<span>Pai de aluna</span></p></div>
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Incrível! Materiais fáceis de achar e projetos que realmente funcionam. Recomendo!"</p><p class="tcard-author">Fernanda Costa<span>Mãe e educadora</span></p></div>
+      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Meu filho se conectou de um jeito incrível. Atividade que recomendo a todos!"</p><p class="tcard-author">Patrícia Lima<span>Mãe de aluno</span></p></div>
+    </div>
+  </section>
 
-    </section>
+</div>
 
-    <!-- IDEAL PARA / NÃO É PARA -->
-    <section class="ideal-section">
-      <div class="ideal-grid">
-
-        <div class="ideal-card yes">
-          <p class="ideal-card-title">✅ Ideal para:</p>
-          <div class="ideal-item">
-            <div class="ideal-icon">✓</div>
-            Pais que querem atividades inteligentes para os filhos
-          </div>
-          <div class="ideal-item">
-            <div class="ideal-icon">✓</div>
-            Educadores e professores
-          </div>
-          <div class="ideal-item">
-            <div class="ideal-icon">✓</div>
-            Quem busca ideias criativas para fazer em casa
-          </div>
-          <div class="ideal-item">
-            <div class="ideal-icon">✓</div>
-            Crianças curiosas e criativas
-          </div>
-        </div>
-
-        <div class="ideal-card no">
-          <p class="ideal-card-title">❌ Não é para:</p>
-          <div class="ideal-item">
-            <div class="ideal-icon">✕</div>
-            Quem busca apenas entretenimento sem aprendizado
-          </div>
-          <div class="ideal-item">
-            <div class="ideal-icon">✕</div>
-            Quem não quer colocar a mão na massa
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    </section>
-
-  </div>
-      <div class="carousel-track" id="carousel">
-
-        <div class="tcard">
-          <div class="tcard-stars">★★★★★</div>
-          <p class="tcard-text">"Melhor custo benefício! Meu filho não larga mais. Aprendeu mais em uma semana do que em meses."</p>
-          <p class="tcard-author">Lucas Martins <span>Pai de aluno</span></p>
-        </div>
-
-        <div class="tcard">
-          <div class="tcard-stars">★★★★★</div>
-          <p class="tcard-text">"Meus filhos adoraram! Ficam pedindo pra fazer mais projetos. Vale muito a pena."</p>
-          <p class="tcard-author">Ana Silva <span>Mãe de dois filhos</span></p>
-        </div>
-
-        <div class="tcard">
-          <div class="tcard-stars">★★★★★</div>
-          <p class="tcard-text">"Como professora indico demais! Os alunos ficam engajados e aprendem brincando."</p>
-          <p class="tcard-author">Carla Mendes <span>Professora</span></p>
-        </div>
-
-        <div class="tcard">
-          <div class="tcard-stars">★★★★★</div>
-          <p class="tcard-text">"Minha filha de 8 anos fez o primeiro robô sozinha! A explicação em vídeo é perfeita."</p>
-          <p class="tcard-author">Roberto Alves <span>Pai de aluna</span></p>
-        </div>
-
-        <div class="tcard">
-          <div class="tcard-stars">★★★★★</div>
-          <p class="tcard-text">"Incrível! Materiais fáceis de achar e projetos que realmente funcionam. Recomendo!"</p>
-          <p class="tcard-author">Fernanda Costa <span>Mãe e educadora</span></p>
-        </div>
-
-        <div class="tcard">
-          <div class="tcard-stars">★★★★★</div>
-          <p class="tcard-text">"Meu filho autista se conectou de um jeito que nunca tinha visto. Atividade incrível!"</p>
-          <p class="tcard-author">Patrícia Lima <span>Mãe de aluno</span></p>
-        </div>
-
-        <!-- duplicados para loop infinito -->
-        <div class="tcard">
-          <div class="tcard-stars">★★★★★</div>
-          <p class="tcard-text">"Melhor custo benefício! Meu filho não larga mais. Aprendeu mais em uma semana do que em meses."</p>
-          <p class="tcard-author">Lucas Martins <span>Pai de aluno</span></p>
-        </div>
-        <div class="tcard">
-          <div class="tcard-stars">★★★★★</div>
-          <p class="tcard-text">"Meus filhos adoraram! Ficam pedindo pra fazer mais projetos. Vale muito a pena."</p>
-          <p class="tcard-author">Ana Silva <span>Mãe de dois filhos</span></p>
-        </div>
-        <div class="tcard">
-          <div class="tcard-stars">★★★★★</div>
-          <p class="tcard-text">"Como professora indico demais! Os alunos ficam engajados e aprendem brincando."</p>
-          <p class="tcard-author">Carla Mendes <span>Professora</span></p>
-        </div>
-        <div class="tcard">
-          <div class="tcard-stars">★★★★★</div>
-          <p class="tcard-text">"Minha filha de 8 anos fez o primeiro robô sozinha! A explicação em vídeo é perfeita."</p>
-          <p class="tcard-author">Roberto Alves <span>Pai de aluna</span></p>
-        </div>
-        <div class="tcard">
-          <div class="tcard-stars">★★★★★</div>
-          <p class="tcard-text">"Incrível! Materiais fáceis de achar e projetos que realmente funcionam. Recomendo!"</p>
-          <p class="tcard-author">Fernanda Costa <span>Mãe e educadora</span></p>
-        </div>
-        <div class="tcard">
-          <div class="tcard-stars">★★★★★</div>
-          <p class="tcard-text">"Meu filho autista se conectou de um jeito que nunca tinha visto. Atividade incrível!"</p>
-          <p class="tcard-author">Patrícia Lima <span>Mãe de aluno</span></p>
-        </div>
-
-      </div>
-    </section>
-
-  </div><!-- end .page -->
-
-  <script>
-    // Efeito de construção letra por letra na headline
-    const headline = document.getElementById('headline');
-    const text = headline.innerHTML;
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = text;
-
-    function wrapChars(node) {
-      if (node.nodeType === 3) {
-        const frag = document.createDocumentFragment();
-        node.textContent.split('').forEach((ch, i) => {
-          if (ch === ' ') {
-            frag.appendChild(document.createTextNode(' '));
-          } else {
-            const span = document.createElement('span');
-            span.className = 'typed-char';
-            span.textContent = ch;
-            span.style.animationDelay = (i * 0.03) + 's';
-            frag.appendChild(span);
-          }
-        });
-        return frag;
-      } else if (node.nodeType === 1) {
-        const clone = node.cloneNode(false);
-        node.childNodes.forEach(child => clone.appendChild(wrapChars(child)));
-        return clone;
-      }
-      return node.cloneNode(true);
+<script>
+  // HEADLINE CHAR BY CHAR
+  const hl = document.getElementById('headline');
+  const tmp = document.createElement('div');
+  tmp.innerHTML = hl.innerHTML;
+  function wrapChars(node) {
+    if (node.nodeType === 3) {
+      const frag = document.createDocumentFragment();
+      node.textContent.split('').forEach((ch, i) => {
+        if (ch === ' ') { frag.appendChild(document.createTextNode(' ')); }
+        else { const s = document.createElement('span'); s.className = 'typed-char'; s.textContent = ch; s.style.animationDelay = (i * 0.03) + 's'; frag.appendChild(s); }
+      });
+      return frag;
+    } else if (node.nodeType === 1) {
+      const c = node.cloneNode(false);
+      node.childNodes.forEach(ch => c.appendChild(wrapChars(ch)));
+      return c;
     }
+    return node.cloneNode(true);
+  }
+  hl.innerHTML = '';
+  tmp.childNodes.forEach(n => hl.appendChild(wrapChars(n)));
 
-    headline.innerHTML = '';
-    tempDiv.childNodes.forEach(node => headline.appendChild(wrapChars(node)));
-  </script>
+  // VIDEO LOGIC
+  const cards = document.querySelectorAll('.video-card');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const v = e.target.querySelector('video');
+        if (!v.src && v.dataset.src) { v.src = v.dataset.src; }
+        obs.unobserve(e.target);
+      }
+    });
+  }, { rootMargin: '300px' });
 
+  cards.forEach(card => {
+    obs.observe(card);
+    card.addEventListener('click', () => {
+      const v = card.querySelector('video');
+      cards.forEach(o => { if (o !== card) { o.querySelector('video').pause(); o.classList.remove('playing'); } });
+      if (v.paused) {
+        if (!v.src && v.dataset.src) v.src = v.dataset.src;
+        const play = () => { v.play(); card.classList.add('playing'); };
+        v.readyState >= 2 ? play() : v.addEventListener('canplay', play, { once: true });
+      } else { v.pause(); card.classList.remove('playing'); }
+    });
+    card.querySelector('video').addEventListener('ended', () => card.classList.remove('playing'));
+  });
+</script>
 </body>
 </html>

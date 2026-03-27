@@ -295,7 +295,123 @@
       color: #fff;
     }
 
-    /* ── CTA BUTTON ── */
+    /* ── IDEAL PARA ── */
+    .ideal-section {
+      background: var(--cream2);
+      padding: 32px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ideal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .ideal-card {
+      border-radius: 16px;
+      padding: 18px 14px;
+    }
+    .ideal-card.yes {
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+    }
+    .ideal-card.no {
+      background: #fff5f5;
+      border: 1.5px solid #fca5a5;
+    }
+    .ideal-card-title {
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .ideal-card.yes .ideal-card-title { color: #16a34a; }
+    .ideal-card.no  .ideal-card-title { color: #dc2626; }
+    .ideal-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      margin-bottom: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    .ideal-card.yes .ideal-item { color: #166534; }
+    .ideal-card.no  .ideal-item { color: #991b1b; }
+    .ideal-icon {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .ideal-card.yes .ideal-icon { background: #16a34a; color: #fff; }
+    .ideal-card.no  .ideal-icon { background: #dc2626; color: #fff; }
+
+    /* ── TESTIMONIALS CAROUSEL ── */
+    .testimonials-section {
+      background: var(--cream);
+      padding: 8px 0 16px;
+      overflow: hidden;
+      position: relative;
+    }
+    .carousel-track {
+      display: flex;
+      gap: 12px;
+      padding: 8px 20px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      animation: autoScroll 28s linear infinite;
+    }
+    .carousel-track::-webkit-scrollbar { display: none; }
+    .carousel-track:hover { animation-play-state: paused; }
+
+    @keyframes autoScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .tcard {
+      flex-shrink: 0;
+      width: 220px;
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      border: 1px solid rgba(0,0,0,0.05);
+      scroll-snap-align: start;
+    }
+    .tcard-stars {
+      color: var(--yellow);
+      font-size: 13px;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+    .tcard-text {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--dark);
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .tcard-author {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gray);
+    }
+    .tcard-author span {
+      display: block;
+      font-size: 10px;
+      font-weight: 400;
+      color: #9ca3af;
+    }
     .cta-wrap {
       position: relative;
       z-index: 1;
@@ -462,7 +578,122 @@
 
     </section>
 
+    <!-- IDEAL PARA / NÃO É PARA -->
+    <section class="ideal-section">
+      <div class="ideal-grid">
+
+        <div class="ideal-card yes">
+          <p class="ideal-card-title">✅ Ideal para:</p>
+          <div class="ideal-item">
+            <div class="ideal-icon">✓</div>
+            Pais que querem atividades inteligentes para os filhos
+          </div>
+          <div class="ideal-item">
+            <div class="ideal-icon">✓</div>
+            Educadores e professores
+          </div>
+          <div class="ideal-item">
+            <div class="ideal-icon">✓</div>
+            Quem busca ideias criativas para fazer em casa
+          </div>
+          <div class="ideal-item">
+            <div class="ideal-icon">✓</div>
+            Crianças curiosas e criativas
+          </div>
+        </div>
+
+        <div class="ideal-card no">
+          <p class="ideal-card-title">❌ Não é para:</p>
+          <div class="ideal-item">
+            <div class="ideal-icon">✕</div>
+            Quem busca apenas entretenimento sem aprendizado
+          </div>
+          <div class="ideal-item">
+            <div class="ideal-icon">✕</div>
+            Quem não quer colocar a mão na massa
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    </section>
+
   </div>
+      <div class="carousel-track" id="carousel">
+
+        <div class="tcard">
+          <div class="tcard-stars">★★★★★</div>
+          <p class="tcard-text">"Melhor custo benefício! Meu filho não larga mais. Aprendeu mais em uma semana do que em meses."</p>
+          <p class="tcard-author">Lucas Martins <span>Pai de aluno</span></p>
+        </div>
+
+        <div class="tcard">
+          <div class="tcard-stars">★★★★★</div>
+          <p class="tcard-text">"Meus filhos adoraram! Ficam pedindo pra fazer mais projetos. Vale muito a pena."</p>
+          <p class="tcard-author">Ana Silva <span>Mãe de dois filhos</span></p>
+        </div>
+
+        <div class="tcard">
+          <div class="tcard-stars">★★★★★</div>
+          <p class="tcard-text">"Como professora indico demais! Os alunos ficam engajados e aprendem brincando."</p>
+          <p class="tcard-author">Carla Mendes <span>Professora</span></p>
+        </div>
+
+        <div class="tcard">
+          <div class="tcard-stars">★★★★★</div>
+          <p class="tcard-text">"Minha filha de 8 anos fez o primeiro robô sozinha! A explicação em vídeo é perfeita."</p>
+          <p class="tcard-author">Roberto Alves <span>Pai de aluna</span></p>
+        </div>
+
+        <div class="tcard">
+          <div class="tcard-stars">★★★★★</div>
+          <p class="tcard-text">"Incrível! Materiais fáceis de achar e projetos que realmente funcionam. Recomendo!"</p>
+          <p class="tcard-author">Fernanda Costa <span>Mãe e educadora</span></p>
+        </div>
+
+        <div class="tcard">
+          <div class="tcard-stars">★★★★★</div>
+          <p class="tcard-text">"Meu filho autista se conectou de um jeito que nunca tinha visto. Atividade incrível!"</p>
+          <p class="tcard-author">Patrícia Lima <span>Mãe de aluno</span></p>
+        </div>
+
+        <!-- duplicados para loop infinito -->
+        <div class="tcard">
+          <div class="tcard-stars">★★★★★</div>
+          <p class="tcard-text">"Melhor custo benefício! Meu filho não larga mais. Aprendeu mais em uma semana do que em meses."</p>
+          <p class="tcard-author">Lucas Martins <span>Pai de aluno</span></p>
+        </div>
+        <div class="tcard">
+          <div class="tcard-stars">★★★★★</div>
+          <p class="tcard-text">"Meus filhos adoraram! Ficam pedindo pra fazer mais projetos. Vale muito a pena."</p>
+          <p class="tcard-author">Ana Silva <span>Mãe de dois filhos</span></p>
+        </div>
+        <div class="tcard">
+          <div class="tcard-stars">★★★★★</div>
+          <p class="tcard-text">"Como professora indico demais! Os alunos ficam engajados e aprendem brincando."</p>
+          <p class="tcard-author">Carla Mendes <span>Professora</span></p>
+        </div>
+        <div class="tcard">
+          <div class="tcard-stars">★★★★★</div>
+          <p class="tcard-text">"Minha filha de 8 anos fez o primeiro robô sozinha! A explicação em vídeo é perfeita."</p>
+          <p class="tcard-author">Roberto Alves <span>Pai de aluna</span></p>
+        </div>
+        <div class="tcard">
+          <div class="tcard-stars">★★★★★</div>
+          <p class="tcard-text">"Incrível! Materiais fáceis de achar e projetos que realmente funcionam. Recomendo!"</p>
+          <p class="tcard-author">Fernanda Costa <span>Mãe e educadora</span></p>
+        </div>
+        <div class="tcard">
+          <div class="tcard-stars">★★★★★</div>
+          <p class="tcard-text">"Meu filho autista se conectou de um jeito que nunca tinha visto. Atividade incrível!"</p>
+          <p class="tcard-author">Patrícia Lima <span>Mãe de aluno</span></p>
+        </div>
+
+      </div>
+    </section>
+
+  </div><!-- end .page -->
 
   <script>
     // Efeito de construção letra por letra na headline

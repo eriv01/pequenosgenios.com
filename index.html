@@ -229,28 +229,41 @@
 
   // VIDEO LOGIC
   const cards = document.querySelectorAll('.video-card');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const v = e.target.querySelector('video');
-        if (!v.src && v.dataset.src) { v.src = v.dataset.src; }
-        obs.unobserve(e.target);
-      }
-    });
-  }, { rootMargin: '300px' });
 
   cards.forEach(card => {
-    obs.observe(card);
+    const v = card.querySelector('video');
+
+    // carrega src imediatamente
+    if (v.dataset.src && !v.src) {
+      v.src = v.dataset.src;
+      v.load();
+    }
+
     card.addEventListener('click', () => {
-      const v = card.querySelector('video');
-      cards.forEach(o => { if (o !== card) { o.querySelector('video').pause(); o.classList.remove('playing'); } });
+      // pausa todos os outros
+      cards.forEach(o => {
+        if (o !== card) {
+          const ov = o.querySelector('video');
+          ov.pause();
+          o.classList.remove('playing');
+        }
+      });
+
       if (v.paused) {
-        if (!v.src && v.dataset.src) v.src = v.dataset.src;
-        const play = () => { v.play(); card.classList.add('playing'); };
-        v.readyState >= 2 ? play() : v.addEventListener('canplay', play, { once: true });
-      } else { v.pause(); card.classList.remove('playing'); }
+        v.play().then(() => {
+          card.classList.add('playing');
+        }).catch(() => {
+          // tenta com muted em caso de bloqueio
+          v.muted = true;
+          v.play().then(() => card.classList.add('playing'));
+        });
+      } else {
+        v.pause();
+        card.classList.remove('playing');
+      }
     });
-    card.querySelector('video').addEventListener('ended', () => card.classList.remove('playing'));
+
+    v.addEventListener('ended', () => card.classList.remove('playing'));
   });
 </script>
 </body>

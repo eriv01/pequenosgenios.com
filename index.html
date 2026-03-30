@@ -95,17 +95,6 @@
     .ideal-card.yes .ideal-icon { background: #16a34a; color: #fff; }
     .ideal-card.no .ideal-icon { background: #dc2626; color: #fff; }
 
-    /* DEPOIMENTOS */
-    .testimonials-section { background: var(--cream); padding: 8px 0 16px; overflow: hidden; }
-    .carousel-track { display: flex; gap: 12px; padding: 8px 20px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; animation: autoScroll 30s linear infinite; }
-    .carousel-track::-webkit-scrollbar { display: none; }
-    .carousel-track:hover { animation-play-state: paused; }
-    @keyframes autoScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-    .tcard { flex-shrink: 0; width: 220px; background: #fff; border-radius: 14px; padding: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); border: 1px solid rgba(0,0,0,0.05); }
-    .tcard-stars { color: var(--yellow); font-size: 13px; margin-bottom: 8px; }
-    .tcard-text { font-size: 12px; font-weight: 600; color: var(--dark); line-height: 1.5; margin-bottom: 10px; }
-    .tcard-author { font-size: 11px; font-weight: 700; color: var(--gray); }
-    .tcard-author span { display: block; font-size: 10px; font-weight: 400; color: #9ca3af; }
 
     /* FAQ */
     .faq-section { background: #fff; padding: 40px 24px 44px; max-width: 480px; margin: 0 auto; }
@@ -273,7 +262,7 @@
 
   <!-- GARANTIA 7 DIAS -->
   <section style="background:var(--cream2);padding:32px 24px;text-align:center;">
-    <img src="https://doram.shop/wp-content/uploads/2026/03/grok-image-8bdebcbf-70ca-4276-aa39-ba46021240a0.jpg" alt="Garantia 7 dias" loading="lazy" decoding="async" width="140" height="140" style="width:140px;height:auto;margin:0 auto 16px;display:block;">
+    <img src="https://doram.shop/wp-content/uploads/2026/03/grok-image-8bdebcbf-70ca-4276-aa39-ba46021240a0.jpg" alt="Garantia 7 dias" loading="lazy" decoding="async" width="220" height="220" style="width:220px;height:auto;margin:0 auto 16px;display:block;">
     <h2 style="font-family:'Nunito',sans-serif;font-size:22px;font-weight:900;color:var(--dark);margin-bottom:10px;">Garantia de 7 Dias</h2>
     <p style="font-size:13px;color:var(--gray);line-height:1.7;max-width:360px;margin:0 auto 20px;">Se por qualquer motivo você não ficar satisfeito nos primeiros 7 dias, devolvemos 100% do seu dinheiro. Sem perguntas, sem burocracia.</p>
     <div style="display:flex;align-items:center;justify-content:center;gap:8px;background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:12px 20px;max-width:280px;margin:0 auto;">
@@ -299,24 +288,6 @@
     </div>
   </section>
 
-  <!-- DEPOIMENTOS CARROSSEL AUTO -->
-  <section class="testimonials-section">
-    <div class="carousel-track">
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Melhor custo benefício! Meu filho não larga mais. Aprendeu mais em uma semana do que em meses."</p><p class="tcard-author">Lucas Martins<span>Pai de aluno</span></p></div>
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Meus filhos adoraram! Ficam pedindo pra fazer mais projetos. Vale muito a pena."</p><p class="tcard-author">Ana Silva<span>Mãe de dois filhos</span></p></div>
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Como professora indico demais! Os alunos ficam engajados e aprendem brincando."</p><p class="tcard-author">Carla Mendes<span>Professora</span></p></div>
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Minha filha de 8 anos fez o primeiro robô sozinha! A explicação em vídeo é perfeita."</p><p class="tcard-author">Roberto Alves<span>Pai de aluna</span></p></div>
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Incrível! Materiais fáceis de achar e projetos que realmente funcionam. Recomendo!"</p><p class="tcard-author">Fernanda Costa<span>Mãe e educadora</span></p></div>
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Meu filho se conectou de um jeito incrível. Atividade que recomendo a todos!"</p><p class="tcard-author">Patrícia Lima<span>Mãe de aluno</span></p></div>
-      <!-- duplicados para loop infinito -->
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Melhor custo benefício! Meu filho não larga mais. Aprendeu mais em uma semana do que em meses."</p><p class="tcard-author">Lucas Martins<span>Pai de aluno</span></p></div>
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Meus filhos adoraram! Ficam pedindo pra fazer mais projetos. Vale muito a pena."</p><p class="tcard-author">Ana Silva<span>Mãe de dois filhos</span></p></div>
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Como professora indico demais! Os alunos ficam engajados e aprendem brincando."</p><p class="tcard-author">Carla Mendes<span>Professora</span></p></div>
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Minha filha de 8 anos fez o primeiro robô sozinha! A explicação em vídeo é perfeita."</p><p class="tcard-author">Roberto Alves<span>Pai de aluna</span></p></div>
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Incrível! Materiais fáceis de achar e projetos que realmente funcionam. Recomendo!"</p><p class="tcard-author">Fernanda Costa<span>Mãe e educadora</span></p></div>
-      <div class="tcard"><div class="tcard-stars">★★★★★</div><p class="tcard-text">"Meu filho se conectou de um jeito incrível. Atividade que recomendo a todos!"</p><p class="tcard-author">Patrícia Lima<span>Mãe de aluno</span></p></div>
-    </div>
-  </section>
 
 </div><!-- end .page -->
 

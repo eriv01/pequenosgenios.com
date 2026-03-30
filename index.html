@@ -4,44 +4,83 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Guia dos Projetos Robóticos</title>
-  <!-- Preconnect for faster font load -->
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1183688043698804');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1183688043698804&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    :root { --red:#e8372a; --orange:#f97316; --cream:#fdf6ee; --cream2:#fef9f3; --gray:#6b7280; --dark:#1a1a2e; --green:#22c55e; --yellow:#fbbf24; --blue:#3b82f6; }
+    :root {
+      --red:#e8372a; --orange:#f97316; --cream:#fdf6ee;
+      --cream2:#fef9f3; --gray:#6b7280; --dark:#1a1a2e;
+      --green:#22c55e; --yellow:#fbbf24; --blue:#3b82f6;
+    }
     html { scroll-behavior: smooth; }
     body { width: 100%; overflow-x: hidden; background: var(--cream); font-family: 'Nunito', sans-serif; color: var(--dark); }
+    img { max-width: 100%; height: auto; }
+    section, div { max-width: 100%; }
 
-    /* ROBOT BG - lightweight inline SVG pattern */
+    /* ── ROBOT BG ── */
     .robot-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; opacity: 0.04; will-change: auto; }
     .robot-bg svg { width: 100%; height: 100%; }
 
-    /* TOPBAR — wraps em vez de cortar em telas pequenas */
-    .topbar { position: relative; z-index: 2; background: var(--red); padding: 10px 16px; text-align: center; }
+    /* ── TOPBAR ── */
+    .topbar { position: relative; z-index: 2; background: var(--red); padding: 8px 16px; text-align: center; }
     .topbar p { font-size: 11px; font-weight: 800; color: #fff; letter-spacing: 0.3px; text-transform: uppercase; white-space: normal; word-break: break-word; line-height: 1.4; }
     .topbar p span { background: #fff; color: var(--red); padding: 1px 6px; border-radius: 4px; margin: 0 2px; display: inline-block; }
 
+    /* ── LOGO HEADER ── */
+    .logo-header {
+      background: var(--cream);
+      padding: 10px 20px 0;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+    .logo-header img { width: 72px; height: 72px; object-fit: contain; }
+
     .page { position: relative; z-index: 1; width: 100%; max-width: 480px; margin: 0 auto; }
 
-    /* HERO */
-    .hero { background: var(--cream); padding: 32px 20px 28px; position: relative; overflow: hidden; }
+    /* ── HERO ── */
+    .hero { background: var(--cream); padding: 20px 20px 28px; position: relative; overflow: hidden; }
     .blob { position: absolute; border-radius: 50%; filter: blur(40px); pointer-events: none; z-index: 0; }
     .blob-1 { width: 220px; height: 220px; background: rgba(251,191,36,0.18); top: -60px; left: -60px; }
     .blob-2 { width: 180px; height: 180px; background: rgba(232,55,42,0.1); top: 40px; right: -50px; }
     .blob-3 { width: 160px; height: 160px; background: rgba(59,130,246,0.1); bottom: -40px; left: 30%; }
-    .gear { position: absolute; opacity: 0.08; animation: spin var(--spd) linear infinite; z-index: 0; }
+    .gear-deco { position: absolute; opacity: 0.08; animation: spin var(--spd) linear infinite; z-index: 0; }
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
     .eyebrow { position: relative; z-index: 1; font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
     .eyebrow::before { content: ''; width: 24px; height: 2px; background: var(--orange); border-radius: 2px; display: inline-block; flex-shrink: 0; }
-    /* headline — break-word garante que não vaza em 320px */
-    .headline { position: relative; z-index: 1; font-size: clamp(20px, 5.8vw, 30px); font-weight: 900; line-height: 1.25; color: var(--dark); margin-bottom: 16px; word-break: break-word; overflow-wrap: break-word; hyphens: auto; }
-    .headline .highlight { color: var(--red); position: relative; display: inline-block; }
+
+    /* headline — overflow-wrap garante que não corta no meio de palavras */
+    .headline { position: relative; z-index: 1; font-size: clamp(20px, 5.8vw, 30px); font-weight: 900; line-height: 1.25; color: var(--dark); margin-bottom: 16px; overflow-wrap: break-word; word-break: break-word; hyphens: none; }
+    .headline .highlight { color: var(--red); position: relative; display: inline; }
     .headline .highlight::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 3px; background: var(--red); border-radius: 2px; animation: underlineGrow 1.2s ease 0.8s forwards; }
     @keyframes underlineGrow { to { width: 100%; } }
     .typed-char { display: inline-block; opacity: 0; transform: translateY(8px) scale(0.9); animation: charIn 0.04s ease forwards; }
     @keyframes charIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+
     .subtext { position: relative; z-index: 1; font-size: 14px; color: var(--gray); line-height: 1.65; margin-bottom: 28px; }
     .benefits { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
     .benefit-item { display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 14px; padding: 13px 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); animation: slideIn 0.5s ease both; }
@@ -56,32 +95,118 @@
     .benefit-item:nth-child(3) .benefit-icon { background: #fffbeb; }
     .benefit-item:nth-child(4) .benefit-icon { background: #eff6ff; }
     .benefit-text { font-size: 13px; font-weight: 700; color: var(--dark); line-height: 1.3; }
+
     .trust-badges { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 28px; flex-wrap: wrap; }
     .trust-badge { display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; }
     .trust-badge .dot { width: 14px; height: 14px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #fff; flex-shrink: 0; }
 
-    /* CTA BUTTONS — font-size fluido para não vazar */
-    .btn-cta { display: block; width: 100%; background: var(--red); color: #fff; font-family: 'Nunito', sans-serif; font-size: clamp(13px,4vw,16px); font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; padding: 18px 16px; border-radius: 14px; text-align: center; text-decoration: none; position: relative; overflow: hidden; box-shadow: 0 6px 20px rgba(232,55,42,0.35); animation: pulse-btn 2s ease-in-out infinite; transition: transform 0.18s; cursor: pointer; border: none; }
+    /* ── BUTTONS ── */
+    .btn-cta { display: block; width: 100%; background: var(--red); color: #fff; font-family: 'Nunito', sans-serif; font-size: clamp(13px,4vw,16px); font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; padding: 18px 16px; border-radius: 14px; text-align: center; text-decoration: none; position: relative; overflow: hidden; box-shadow: 0 6px 20px rgba(232,55,42,0.35); animation: pulse-btn 2s ease-in-out infinite; transition: transform 0.18s; cursor: pointer; border: none; min-height: 52px; }
     .btn-cta::before { content: ''; position: absolute; top: 0; left: -80%; width: 55%; height: 100%; background: linear-gradient(to right, transparent, rgba(255,255,255,0.25), transparent); transform: skewX(-18deg); animation: shimmer 2.4s ease infinite; }
     .btn-cta:active { transform: scale(0.97); }
     @keyframes pulse-btn { 0%,100% { box-shadow: 0 6px 20px rgba(232,55,42,0.35); } 50% { box-shadow: 0 8px 28px rgba(232,55,42,0.55); } }
     @keyframes shimmer { 0% { left: -80%; } 100% { left: 130%; } }
-    .btn-green { display: block; width: 100%; background: #16a34a; color: #fff; font-family: 'Nunito', sans-serif; font-size: clamp(12px,3.8vw,15px); font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; padding: 18px 16px; border-radius: 14px; text-align: center; text-decoration: none; box-shadow: 0 6px 20px rgba(22,163,74,0.4); position: relative; overflow: hidden; cursor: pointer; border: none; }
+    .btn-green { display: block; width: 100%; background: #16a34a; color: #fff; font-family: 'Nunito', sans-serif; font-size: clamp(12px,3.8vw,15px); font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; padding: 18px 16px; border-radius: 14px; text-align: center; text-decoration: none; box-shadow: 0 6px 20px rgba(22,163,74,0.4); position: relative; overflow: hidden; cursor: pointer; border: none; min-height: 52px; }
 
-    /* VIDEO */
+    /* ── ROBOT ELEMENTS DECORATION (subtle) ── */
+    .robo-decor {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 0 4px;
+      opacity: 0.18;
+      pointer-events: none;
+      flex-wrap: wrap;
+    }
+    .robo-decor svg { width: 22px; height: 22px; }
+
+    /* ── VIDEO SECTION ── */
     .video-section { background: #fff; padding: 32px 0 28px; }
     .section-title { font-size: clamp(16px, 4.5vw, 22px); font-weight: 900; color: var(--dark); text-align: center; text-transform: uppercase; line-height: 1.25; margin-bottom: 8px; padding: 0 20px; }
     .section-line { width: 40px; height: 3px; background: var(--red); border-radius: 2px; margin: 0 auto 20px; }
-    .video-track { display: flex; gap: 12px; padding: 4px 20px 12px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; align-items: center; }
+    .video-track { display: flex; gap: 14px; padding: 12px 20px 16px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; align-items: center; }
     .video-track::-webkit-scrollbar { display: none; }
-    .video-card { flex-shrink: 0; width: 140px; height: 250px; border-radius: 16px; overflow: hidden; background: var(--dark); position: relative; box-shadow: 0 4px 14px rgba(0,0,0,0.15); cursor: pointer; -webkit-tap-highlight-color: transparent; scroll-snap-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease; border: 2.5px solid transparent; }
-    .video-card.playing { border-color: var(--red); box-shadow: 0 4px 20px rgba(232,55,42,0.45); }
-    .video-card video { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .video-label { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.88), transparent); padding: 32px 8px 8px; font-size: 9px; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; line-height: 1.3; }
-    .video-play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 44px; height: 44px; background: rgba(255,255,255,0.18); border: 2px solid rgba(255,255,255,0.7); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; backdrop-filter: blur(4px); transition: opacity 0.25s; pointer-events: none; }
+
+    /* GEAR-SHAPED VIDEO CARDS */
+    .video-card {
+      flex-shrink: 0;
+      width: 148px;
+      height: 148px;
+      position: relative;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      scroll-snap-align: center;
+      transition: transform 0.3s ease;
+    }
+    .video-card:active { transform: scale(0.95); }
+
+    /* gear clip path via SVG clipPath */
+    .video-card .gear-clip {
+      width: 148px;
+      height: 148px;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      /* gear outline via box-shadow + border trick */
+      clip-path: polygon(
+        50% 0%, 61% 4%, 68% 2%, 74% 8%, 80% 7%, 84% 14%,
+        91% 15%, 93% 23%, 99% 27%, 98% 35%, 100% 42%,
+        96% 49%, 100% 56%, 97% 63%, 99% 71%, 93% 76%,
+        91% 84%, 84% 87%, 80% 94%, 74% 93%, 68% 99%,
+        61% 97%, 50% 100%, 39% 97%, 32% 99%, 26% 93%,
+        20% 94%, 16% 87%, 9% 84%, 7% 76%, 1% 71%,
+        3% 63%, 0% 56%, 4% 49%, 0% 42%, 2% 35%,
+        1% 27%, 7% 23%, 9% 15%, 16% 14%, 20% 7%,
+        26% 8%, 32% 2%, 39% 4%
+      );
+      border: 3px solid transparent;
+      transition: box-shadow 0.2s;
+    }
+    .video-card.playing .gear-clip {
+      outline: 3px solid var(--red);
+      box-shadow: 0 0 0 3px var(--red), 0 6px 24px rgba(232,55,42,0.4);
+    }
+    .video-card video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background: var(--dark);
+    }
+    .video-label {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.75);
+      color: #fff;
+      font-size: 8px;
+      font-weight: 900;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+      pointer-events: none;
+    }
+    .video-play-btn {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.22);
+      border: 2px solid rgba(255,255,255,0.7);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+      backdrop-filter: blur(4px);
+      transition: opacity 0.25s;
+      pointer-events: none;
+    }
     .video-card.playing .video-play-btn { opacity: 0; }
 
-    /* IDEAL */
+    /* ── IDEAL ── */
     .ideal-section { background: var(--cream2); padding: 32px 16px; }
     .ideal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .ideal-card { border-radius: 16px; padding: 16px 12px; }
@@ -97,43 +222,39 @@
     .ideal-card.yes .ideal-icon { background: #16a34a; color: #fff; }
     .ideal-card.no .ideal-icon { background: #dc2626; color: #fff; }
 
-    /* FAQ */
+    /* ── DEPOIMENTOS CAROUSEL ── */
+    #depCarrossel::-webkit-scrollbar { display: none; }
+    #depCarrossel { scrollbar-width: none; }
+
+    /* ── OFERTA ── */
+    .price-value { font-size: clamp(40px,12vw,52px); font-weight: 900; line-height: 1; color: #fff; font-family: 'Nunito', sans-serif; }
+    .countdown-value { font-size: clamp(22px,7vw,28px); font-weight: 900; letter-spacing: clamp(1px,1.5vw,3px); font-family: 'Nunito', sans-serif; color: #fff; }
+
+    /* ── FAQ ── */
     .faq-section { background: #fff; padding: 40px 20px 44px; max-width: 480px; margin: 0 auto; }
     .faq-title { font-size: clamp(18px,5vw,22px); font-weight: 900; color: var(--dark); text-align: center; text-transform: uppercase; line-height: 1.25; margin-bottom: 6px; }
     .faq-subtitle { text-align: center; font-size: 13px; color: var(--gray); font-weight: 600; margin-bottom: 28px; }
     .faq-list { display: flex; flex-direction: column; gap: 10px; }
     .faq-item { border-radius: 14px; border: 1.5px solid #f0f0f0; overflow: hidden; transition: border-color 0.25s; }
     .faq-item.open { border-color: var(--red); }
-    .faq-btn { width: 100%; background: none; border: none; padding: 16px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; font-family: 'Nunito', sans-serif; text-align: left; -webkit-tap-highlight-color: transparent; }
+    .faq-btn { width: 100%; background: none; border: none; padding: 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; font-family: 'Nunito', sans-serif; text-align: left; -webkit-tap-highlight-color: transparent; min-height: 44px; }
     .faq-btn-text { font-size: 13px; font-weight: 800; color: var(--dark); line-height: 1.35; flex: 1; }
     .faq-item.open .faq-btn-text { color: var(--red); }
     .faq-icon { width: 24px; height: 24px; border-radius: 50%; background: #f4f4f5; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.25s, transform 0.3s; font-size: 14px; font-weight: 900; color: var(--gray); line-height: 1; }
     .faq-item.open .faq-icon { background: var(--red); color: #fff; transform: rotate(45deg); }
     .faq-body { max-height: 0; overflow: hidden; transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1); }
-    .faq-body-inner { padding: 0 16px 16px; font-size: 13px; color: var(--gray); line-height: 1.65; font-weight: 600; border-top: 1px solid #f0f0f0; padding-top: 12px; }
+    .faq-body-inner { padding: 12px 16px 16px; font-size: 13px; color: var(--gray); line-height: 1.65; font-weight: 600; border-top: 1px solid #f0f0f0; }
 
-    /* FOOTER */
-    .site-footer { background: var(--dark); padding: 22px 20px; text-align: center; max-width: 480px; margin: 0 auto; }
+    /* ── FOOTER ── */
+    .site-footer { background: var(--dark); padding: 24px 20px; text-align: center; max-width: 480px; margin: 0 auto; }
+    .site-footer img { width: 56px; height: 56px; object-fit: contain; margin: 0 auto 10px; display: block; opacity: 0.85; }
     .site-footer p { font-size: 11px; color: rgba(255,255,255,0.35); font-weight: 600; letter-spacing: 0.3px; }
     .site-footer span { color: rgba(255,255,255,0.55); font-weight: 700; }
-
-    /* IMAGENS — proteção global contra overflow */
-    img { max-width: 100%; height: auto; }
-
-    /* OFERTA — preço fluido e countdown sem vazar */
-    .price-value { font-size: clamp(40px,12vw,52px); font-weight: 900; line-height: 1; color: #fff; font-family: 'Nunito', sans-serif; }
-    .countdown-value { font-size: clamp(22px,7vw,28px); font-weight: 900; letter-spacing: clamp(1px,1.5vw,3px); font-family: 'Nunito', sans-serif; color: #fff; }
-
-    /* Garante que nenhuma seção ultrapasse a viewport */
-    section, div { max-width: 100%; }
-
-    /* Touch targets mínimos de 44px para acessibilidade mobile */
-    .faq-btn { min-height: 44px; }
-    .btn-cta, .btn-green { min-height: 52px; }
   </style>
 </head>
 <body>
 
+<!-- ROBOT BG -->
 <div class="robot-bg" aria-hidden="true">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice">
     <defs>
@@ -150,6 +271,9 @@
         <circle cx="65" cy="65" r="6" fill="none" stroke="#f97316" stroke-width="1"/>
         <line x1="5" y1="55" x2="25" y2="55" stroke="#3b82f6" stroke-width="1"/>
         <circle cx="15" cy="55" r="1.5" fill="#3b82f6"/>
+        <!-- extra: small circuit node -->
+        <circle cx="50" cy="72" r="2" fill="none" stroke="#22c55e" stroke-width="1"/>
+        <line x1="50" y1="72" x2="60" y2="72" stroke="#22c55e" stroke-width="0.8"/>
       </pattern>
     </defs>
     <rect width="400" height="800" fill="url(#rp)"/>
@@ -158,34 +282,61 @@
 
 <div class="page">
 
+  <!-- TOPBAR -->
   <div class="topbar">
     <p>⚡ Oferta válida somente <span>HOJE</span> — 30/03/2026 ⚡</p>
   </div>
 
+  <!-- LOGO TOPO -->
+  <div class="logo-header">
+    <img src="https://doram.shop/wp-content/uploads/2026/03/grok-image-9918e3d7-8edc-44c6-a7fc-5d907c629633-removebg-preview.png" alt="Pequenos Gênios" loading="eager" width="72" height="72">
+  </div>
+
+  <!-- HERO -->
   <section class="hero">
     <div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div>
-    <svg class="gear" style="width:80px;top:20px;right:20px;--spd:12s" viewBox="0 0 50 50" fill="none" aria-hidden="true">
+
+    <!-- engrenagens decorativas -->
+    <svg class="gear-deco" style="width:80px;top:20px;right:20px;--spd:12s" viewBox="0 0 50 50" fill="none" aria-hidden="true">
       <path d="M25 15a10 10 0 100 20 10 10 0 000-20zm0 15a5 5 0 110-10 5 5 0 010 10z" fill="#f97316"/>
       <path d="M25 8v4M25 38v4M8 25h4M38 25h4" stroke="#f97316" stroke-width="2.5" stroke-linecap="round"/>
     </svg>
-    <svg class="gear" style="width:50px;bottom:80px;left:10px;--spd:8s;animation-direction:reverse" viewBox="0 0 50 50" fill="none" aria-hidden="true">
+    <svg class="gear-deco" style="width:50px;bottom:80px;left:10px;--spd:8s;animation-direction:reverse" viewBox="0 0 50 50" fill="none" aria-hidden="true">
       <path d="M25 15a10 10 0 100 20 10 10 0 000-20zm0 15a5 5 0 110-10 5 5 0 010 10z" fill="#3b82f6"/>
       <path d="M25 8v4M25 38v4M8 25h4M38 25h4" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
     </svg>
+
     <p class="eyebrow">Guia dos Projetos Robóticos</p>
     <h1 class="headline" id="headline">Transforme materiais simples em projetos de <span class="highlight">robótica</span></h1>
     <p class="subtext">Projetos simples, criativos e gravados em vídeo para você fazer em casa usando materiais fáceis de encontrar.</p>
+
     <div class="benefits">
       <div class="benefit-item"><div class="benefit-icon">🤖</div><span class="benefit-text">Projetos de robótica passo a passo em vídeo</span></div>
       <div class="benefit-item"><div class="benefit-icon">🧠</div><span class="benefit-text">Estimula lógica, criatividade e raciocínio</span></div>
       <div class="benefit-item"><div class="benefit-icon">🏠</div><span class="benefit-text">Ideal para fazer em casa ou na escola</span></div>
       <div class="benefit-item"><div class="benefit-icon">👨‍👧</div><span class="benefit-text">Atividades que conectam adultos e crianças</span></div>
     </div>
+
     <div class="trust-badges">
       <div class="trust-badge"><div class="dot">✓</div>Acesso Imediato</div>
       <div class="trust-badge"><div class="dot">✓</div>Conteúdo Vitalício</div>
       <div class="trust-badge"><div class="dot">✓</div>Atualizações Inclusas</div>
     </div>
+
+    <!-- elementos robóticos sutis -->
+    <div class="robo-decor" aria-hidden="true">
+      <!-- circuito -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="#e8372a" stroke-width="1.5"><rect x="2" y="8" width="5" height="8" rx="1"/><line x1="7" y1="12" x2="17" y2="12"/><rect x="17" y="8" width="5" height="8" rx="1"/><circle cx="12" cy="12" r="2"/></svg>
+      <!-- engrenagem -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5"><path d="M12 8a4 4 0 100 8 4 4 0 000-8z"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <!-- chip -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.5"><rect x="7" y="7" width="10" height="10" rx="1"/><line x1="9" y1="7" x2="9" y2="4"/><line x1="12" y1="7" x2="12" y2="4"/><line x1="15" y1="7" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="17"/><line x1="12" y1="20" x2="12" y2="17"/><line x1="15" y1="20" x2="15" y2="17"/><line x1="7" y1="9" x2="4" y2="9"/><line x1="7" y1="12" x2="4" y2="12"/><line x1="7" y1="15" x2="4" y2="15"/><line x1="20" y1="9" x2="17" y2="9"/><line x1="20" y1="12" x2="17" y2="12"/><line x1="20" y1="15" x2="17" y2="15"/></svg>
+      <!-- robô -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5"><rect x="7" y="10" width="10" height="8" rx="2"/><rect x="9" y="3" width="6" height="5" rx="1"/><line x1="12" y1="8" x2="12" y2="10"/><circle cx="10" cy="13" r="1"/><circle cx="14" cy="13" r="1"/><line x1="5" y1="12" x2="7" y2="12"/><line x1="17" y1="12" x2="19" y2="12"/></svg>
+      <!-- bateria -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="1.5"><rect x="3" y="8" width="16" height="8" rx="1"/><line x1="19" y1="11" x2="21" y2="11"/><line x1="19" y1="13" x2="21" y2="13"/><line x1="7" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/></svg>
+    </div>
+
     <button class="btn-cta smooth-scroll" data-target="oferta">🚀 Quero Acessar Agora</button>
   </section>
 
@@ -194,12 +345,36 @@
     <h2 class="section-title">Veja alguns exemplos de projetos que as crianças vão aprender</h2>
     <div class="section-line"></div>
     <div class="video-track">
-      <div class="video-card"><video playsinline muted preload="none" data-src="https://doram.shop/wp-content/uploads/2026/03/01-mini-video-site.mp4"></video><div class="video-play-btn">▶</div><div class="video-label">PROJETO 04<br>BRAÇO HIDRAULICO</div></div>
-      <div class="video-card"><video playsinline muted preload="none" data-src="https://doram.shop/wp-content/uploads/2026/03/02-mini-video-site.mp4"></video><div class="video-play-btn">▶</div><div class="video-label">PROJETO 09<br>MINI AVIÃO</div></div>
-      <div class="video-card"><video playsinline muted preload="none" data-src="https://doram.shop/wp-content/uploads/2026/03/03-mini-video-site.mp4"></video><div class="video-play-btn">▶</div><div class="video-label">PROJETO 34<br>BONDINHO ELÈTRICO</div></div>
-      <div class="video-card"><video playsinline muted preload="none" data-src="https://doram.shop/wp-content/uploads/2026/03/04-mini-video-site.mp4"></video><div class="video-play-btn">▶</div><div class="video-label">PROJETO 75<br>COPO MALUCO</div></div>
-      <div class="video-card"><video playsinline muted preload="none" data-src="https://doram.shop/wp-content/uploads/2026/03/05-mini-video-site.mp4"></video><div class="video-play-btn">▶</div><div class="video-label">PROJETO 87<br>ATIRADOR DE PAPEL</div></div>
-      <div class="video-card"><video playsinline muted preload="none" data-src="https://doram.shop/wp-content/uploads/2026/03/06-mini-video-site.mp4"></video><div class="video-play-btn">▶</div><div class="video-label">PROJETO 23<br>PEGADOR INTELIGENTE</div></div>
+      <div class="video-card">
+        <div class="gear-clip"><video playsinline muted preload="none" data-src="https://doram.shop/wp-content/uploads/2026/03/01-mini-video-site.mp4"></video></div>
+        <div class="video-play-btn">▶</div>
+        <div class="video-label">BRAÇO HIDRÁULICO</div>
+      </div>
+      <div class="video-card">
+        <div class="gear-clip"><video playsinline muted preload="none" data-src="https://doram.shop/wp-content/uploads/2026/03/02-mini-video-site.mp4"></video></div>
+        <div class="video-play-btn">▶</div>
+        <div class="video-label">MINI AVIÃO</div>
+      </div>
+      <div class="video-card">
+        <div class="gear-clip"><video playsinline muted preload="none" data-src="https://doram.shop/wp-content/uploads/2026/03/03-mini-video-site.mp4"></video></div>
+        <div class="video-play-btn">▶</div>
+        <div class="video-label">BONDINHO ELÉTRICO</div>
+      </div>
+      <div class="video-card">
+        <div class="gear-clip"><video playsinline muted preload="none" data-src="https://doram.shop/wp-content/uploads/2026/03/04-mini-video-site.mp4"></video></div>
+        <div class="video-play-btn">▶</div>
+        <div class="video-label">COPO MALUCO</div>
+      </div>
+      <div class="video-card">
+        <div class="gear-clip"><video playsinline muted preload="none" data-src="https://doram.shop/wp-content/uploads/2026/03/05-mini-video-site.mp4"></video></div>
+        <div class="video-play-btn">▶</div>
+        <div class="video-label">ATIRADOR DE PAPEL</div>
+      </div>
+      <div class="video-card">
+        <div class="gear-clip"><video playsinline muted preload="none" data-src="https://doram.shop/wp-content/uploads/2026/03/06-mini-video-site.mp4"></video></div>
+        <div class="video-play-btn">▶</div>
+        <div class="video-label">PEGADOR INTELIGENTE</div>
+      </div>
     </div>
   </section>
 
@@ -222,9 +397,9 @@
       <div style="background:#fff;border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);border-left:3px solid var(--green);"><span style="width:22px;height:22px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0;">✓</span><span style="font-size:12px;font-weight:700;color:var(--dark);">Cofrinho Inteligente</span></div>
       <div style="background:#fff;border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);border-left:3px solid var(--red);"><span style="width:22px;height:22px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0;">✓</span><span style="font-size:12px;font-weight:700;color:var(--dark);">Helicóptero Motor</span></div>
       <div style="background:#fff;border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06);border-left:3px solid var(--orange);"><span style="width:22px;height:22px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0;">✓</span><span style="font-size:12px;font-weight:700;color:var(--dark);">Avião Motorizado</span></div>
-      <div style="grid-column:1/-1;background:#fff;border-radius:14px;padding:16px 20px;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 4px 16px rgba(0,0,0,0.08);border-left:3px solid var(--blue);"><span style="width:22px;height:22px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0;">✓</span><span style="font-size:15px;font-weight:900;color:var(--dark);">+100 Projetos explicados em video</span></div>
+      <div style="grid-column:1/-1;background:#fff;border-radius:14px;padding:16px 20px;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 4px 16px rgba(0,0,0,0.08);border-left:3px solid var(--blue);"><span style="width:22px;height:22px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0;">✓</span><span style="font-size:15px;font-weight:900;color:var(--dark);">+100 Projetos explicados em vídeo</span></div>
     </div>
-    <button class="btn-green smooth-scroll" data-target="oferta">🚀 Quero Começar Agora por Apenas R$ 10</button>
+    <button class="btn-green smooth-scroll" data-target="oferta">🚀 Quero Começar Agora por Apenas R$ 9,90</button>
   </section>
 
   <!-- IDEAL PARA / NÃO É PARA -->
@@ -250,9 +425,9 @@
     <h2 style="font-family:'Nunito',sans-serif;font-size:clamp(18px,5vw,22px);font-weight:900;color:var(--dark);text-align:center;text-transform:uppercase;line-height:1.25;padding:0 24px;margin-bottom:8px;">O Que Estão Dizendo</h2>
     <div style="width:40px;height:3px;background:var(--red);border-radius:2px;margin:0 auto 20px;"></div>
     <div id="depCarrossel" style="display:flex;gap:14px;padding:4px 20px 12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;">
-      <div style="flex-shrink:0;width:260px;scroll-snap-align:center;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.1);"><img src="https://doram.shop/wp-content/uploads/2026/03/UFCHF.jpg" alt="Depoimento de cliente" loading="lazy" decoding="async" style="width:100%;display:block;object-fit:cover;"></div>
-      <div style="flex-shrink:0;width:260px;scroll-snap-align:center;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.1);"><img src="https://doram.shop/wp-content/uploads/2026/03/ANDREIA.jpg" alt="Depoimento de cliente" loading="lazy" decoding="async" style="width:100%;display:block;object-fit:cover;"></div>
-      <div style="flex-shrink:0;width:260px;scroll-snap-align:center;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.1);"><img src="https://doram.shop/wp-content/uploads/2026/03/ANTONIO-.jpg" alt="Depoimento de cliente" loading="lazy" decoding="async" style="width:100%;display:block;object-fit:cover;"></div>
+      <div style="flex-shrink:0;width:260px;scroll-snap-align:center;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.1);"><img src="https://doram.shop/wp-content/uploads/2026/03/UFCHF.jpg" alt="Depoimento" loading="lazy" decoding="async" style="width:100%;display:block;object-fit:cover;"></div>
+      <div style="flex-shrink:0;width:260px;scroll-snap-align:center;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.1);"><img src="https://doram.shop/wp-content/uploads/2026/03/ANDREIA.jpg" alt="Depoimento" loading="lazy" decoding="async" style="width:100%;display:block;object-fit:cover;"></div>
+      <div style="flex-shrink:0;width:260px;scroll-snap-align:center;border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.1);"><img src="https://doram.shop/wp-content/uploads/2026/03/ANTONIO-.jpg" alt="Depoimento" loading="lazy" decoding="async" style="width:100%;display:block;object-fit:cover;"></div>
     </div>
     <div style="display:flex;justify-content:center;gap:6px;margin-top:12px;" id="depDots">
       <div style="width:8px;height:8px;border-radius:50%;background:var(--red);transition:all .3s;" class="dep-dot"></div>
@@ -267,11 +442,11 @@
     <h2 style="font-family:'Nunito',sans-serif;font-size:clamp(18px,5vw,22px);font-weight:900;color:var(--dark);text-align:center;text-transform:uppercase;line-height:1.25;margin-bottom:8px;">Adquirindo o Guia Hoje,<br>Você Leva de Presente:</h2>
     <div style="width:40px;height:3px;background:var(--red);border-radius:2px;margin:0 auto 28px;"></div>
     <div style="display:flex;flex-direction:column;gap:14px;">
-      <div style="background:#fff;border-radius:16px;padding:14px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 10px rgba(0,0,0,0.07);border-left:3px solid var(--red);"><div style="position:relative;flex-shrink:0;"><img src="https://doram.shop/wp-content/uploads/2026/03/bonus1-cover-BKbk0fYm.webp" alt="Bônus 1" loading="lazy" decoding="async" style="width:72px;height:72px;object-fit:cover;border-radius:10px;display:block;"><span style="position:absolute;top:-8px;left:-8px;background:var(--red);color:#fff;font-size:9px;font-weight:900;padding:3px 7px;border-radius:20px;white-space:nowrap;">🎁 Bônus 1</span></div><div><p style="font-size:13px;font-weight:800;color:var(--dark);line-height:1.35;">Guia da Robótica para Iniciantes</p><p style="font-size:11px;color:var(--gray);margin-top:3px;">Primeiros Passos</p></div></div>
-      <div style="background:#fff;border-radius:16px;padding:14px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 10px rgba(0,0,0,0.07);border-left:3px solid var(--orange);"><div style="position:relative;flex-shrink:0;"><img src="https://doram.shop/wp-content/uploads/2026/03/Copia_de_Copia_de_Copia_de_Sem_nome_1_1767588095961-DYmSd7iC.png" alt="Bônus 2" loading="lazy" decoding="async" style="width:72px;height:72px;object-fit:cover;border-radius:10px;display:block;"><span style="position:absolute;top:-8px;left:-8px;background:var(--orange);color:#fff;font-size:9px;font-weight:900;padding:3px 7px;border-radius:20px;white-space:nowrap;">🎁 Bônus 2</span></div><div><p style="font-size:13px;font-weight:800;color:var(--dark);line-height:1.35;">100 Truques de Mágicas</p><p style="font-size:11px;color:var(--gray);margin-top:3px;">Passo a Passo</p></div></div>
-      <div style="background:#fff;border-radius:16px;padding:14px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 10px rgba(0,0,0,0.07);border-left:3px solid var(--blue);"><div style="position:relative;flex-shrink:0;"><img src="https://doram.shop/wp-content/uploads/2026/03/Copia_de_Copia_de_Copia_de_Copia_de_Sem_nome_1767588314352-BYXA_GeW.png" alt="Bônus 3" loading="lazy" decoding="async" style="width:72px;height:72px;object-fit:cover;border-radius:10px;display:block;"><span style="position:absolute;top:-8px;left:-8px;background:var(--blue);color:#fff;font-size:9px;font-weight:900;padding:3px 7px;border-radius:20px;white-space:nowrap;">🎁 Bônus 3</span></div><div><p style="font-size:13px;font-weight:800;color:var(--dark);line-height:1.35;">27 Mágicas com Cartas</p><p style="font-size:11px;color:var(--gray);margin-top:3px;">Para Aprender em Casa</p></div></div>
-      <div style="background:#fff;border-radius:16px;padding:14px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 10px rgba(0,0,0,0.07);border-left:3px solid var(--yellow);"><div style="position:relative;flex-shrink:0;"><img src="https://doram.shop/wp-content/uploads/2026/03/Copia_de_Copia_de_Copia_de_Copia_de_Copia_de_Sem_nome_1767588710681-DW_7l6TW.png" alt="Bônus 4" loading="lazy" decoding="async" style="width:72px;height:72px;object-fit:cover;border-radius:10px;display:block;"><span style="position:absolute;top:-8px;left:-8px;background:var(--yellow);color:#fff;font-size:9px;font-weight:900;padding:3px 7px;border-radius:20px;white-space:nowrap;">🎁 Bônus 4</span></div><div><p style="font-size:13px;font-weight:800;color:var(--dark);line-height:1.35;">Piadas Infantis</p><p style="font-size:11px;color:var(--gray);margin-top:3px;">Para Rir com Pais e Filhos</p></div></div>
-      <div style="background:#fff;border-radius:16px;padding:14px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 10px rgba(0,0,0,0.07);border-left:3px solid var(--green);"><div style="position:relative;flex-shrink:0;"><img src="https://doram.shop/wp-content/uploads/2026/03/Copia_de_Copia_de_Copia_de_Copia_de_Copia_de_Sem_nome_1767588710681-DW_7l6TW.png" alt="Bônus 5" loading="lazy" decoding="async" style="width:72px;height:72px;object-fit:cover;border-radius:10px;display:block;"><span style="position:absolute;top:-8px;left:-8px;background:var(--green);color:#fff;font-size:9px;font-weight:900;padding:3px 7px;border-radius:20px;white-space:nowrap;">🎁 Bônus 5</span></div><div><p style="font-size:13px;font-weight:800;color:var(--dark);line-height:1.35;">100 Atividades Criativas</p><p style="font-size:11px;color:var(--gray);margin-top:3px;">Diversão e Aprendizado em Família</p></div></div>
+      <div style="background:#fff;border-radius:16px;padding:14px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 10px rgba(0,0,0,0.07);border-left:3px solid var(--red);"><div style="position:relative;flex-shrink:0;"><img src="https://doram.shop/wp-content/uploads/2026/03/bonus1-cover-BKbk0fYm.webp" alt="Bônus 1" loading="lazy" decoding="async" style="width:86px;height:86px;object-fit:cover;border-radius:10px;display:block;"><span style="position:absolute;top:-8px;left:-8px;background:var(--red);color:#fff;font-size:9px;font-weight:900;padding:3px 7px;border-radius:20px;white-space:nowrap;">🎁 Bônus 1</span></div><div><p style="font-size:13px;font-weight:800;color:var(--dark);line-height:1.35;">Guia da Robótica para Iniciantes</p><p style="font-size:11px;color:var(--gray);margin-top:3px;">Primeiros Passos</p></div></div>
+      <div style="background:#fff;border-radius:16px;padding:14px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 10px rgba(0,0,0,0.07);border-left:3px solid var(--orange);"><div style="position:relative;flex-shrink:0;"><img src="https://doram.shop/wp-content/uploads/2026/03/Copia_de_Copia_de_Copia_de_Sem_nome_1_1767588095961-DYmSd7iC.png" alt="Bônus 2" loading="lazy" decoding="async" style="width:86px;height:86px;object-fit:cover;border-radius:10px;display:block;"><span style="position:absolute;top:-8px;left:-8px;background:var(--orange);color:#fff;font-size:9px;font-weight:900;padding:3px 7px;border-radius:20px;white-space:nowrap;">🎁 Bônus 2</span></div><div><p style="font-size:13px;font-weight:800;color:var(--dark);line-height:1.35;">100 Truques de Mágicas</p><p style="font-size:11px;color:var(--gray);margin-top:3px;">Passo a Passo</p></div></div>
+      <div style="background:#fff;border-radius:16px;padding:14px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 10px rgba(0,0,0,0.07);border-left:3px solid var(--blue);"><div style="position:relative;flex-shrink:0;"><img src="https://doram.shop/wp-content/uploads/2026/03/Copia_de_Copia_de_Copia_de_Copia_de_Sem_nome_1767588314352-BYXA_GeW.png" alt="Bônus 3" loading="lazy" decoding="async" style="width:86px;height:86px;object-fit:cover;border-radius:10px;display:block;"><span style="position:absolute;top:-8px;left:-8px;background:var(--blue);color:#fff;font-size:9px;font-weight:900;padding:3px 7px;border-radius:20px;white-space:nowrap;">🎁 Bônus 3</span></div><div><p style="font-size:13px;font-weight:800;color:var(--dark);line-height:1.35;">27 Mágicas com Cartas</p><p style="font-size:11px;color:var(--gray);margin-top:3px;">Para Aprender em Casa</p></div></div>
+      <div style="background:#fff;border-radius:16px;padding:14px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 10px rgba(0,0,0,0.07);border-left:3px solid var(--yellow);"><div style="position:relative;flex-shrink:0;"><img src="https://doram.shop/wp-content/uploads/2026/03/Copia_de_Copia_de_Copia_de_Copia_de_Copia_de_Sem_nome_1767588710681-DW_7l6TW.png" alt="Bônus 4" loading="lazy" decoding="async" style="width:86px;height:86px;object-fit:cover;border-radius:10px;display:block;"><span style="position:absolute;top:-8px;left:-8px;background:var(--yellow);color:#fff;font-size:9px;font-weight:900;padding:3px 7px;border-radius:20px;white-space:nowrap;">🎁 Bônus 4</span></div><div><p style="font-size:13px;font-weight:800;color:var(--dark);line-height:1.35;">Piadas Infantis</p><p style="font-size:11px;color:var(--gray);margin-top:3px;">Para Rir com Pais e Filhos</p></div></div>
+      <div style="background:#fff;border-radius:16px;padding:14px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 10px rgba(0,0,0,0.07);border-left:3px solid var(--green);"><div style="position:relative;flex-shrink:0;"><img src="https://doram.shop/wp-content/uploads/2026/03/Copia_de_Copia_de_Copia_de_Copia_de_Copia_de_Sem_nome_1767588710681-DW_7l6TW.png" alt="Bônus 5" loading="lazy" decoding="async" style="width:86px;height:86px;object-fit:cover;border-radius:10px;display:block;"><span style="position:absolute;top:-8px;left:-8px;background:var(--green);color:#fff;font-size:9px;font-weight:900;padding:3px 7px;border-radius:20px;white-space:nowrap;">🎁 Bônus 5</span></div><div><p style="font-size:13px;font-weight:800;color:var(--dark);line-height:1.35;">100 Atividades Criativas</p><p style="font-size:11px;color:var(--gray);margin-top:3px;">Diversão e Aprendizado em Família</p></div></div>
     </div>
   </section>
 
@@ -286,30 +461,18 @@
     </div>
   </section>
 
-  <section class="ideal-section">
-    <div class="ideal-grid">
-      <div class="ideal-card yes">
-        <p class="ideal-card-title">✅ Ideal para:</p>
-        <div class="ideal-item"><div class="ideal-icon">✓</div>Pais que querem atividades inteligentes para os filhos</div>
-        <div class="ideal-item"><div class="ideal-icon">✓</div>Educadores e professores</div>
-        <div class="ideal-item"><div class="ideal-icon">✓</div>Quem busca ideias criativas para fazer em casa</div>
-        <div class="ideal-item"><div class="ideal-icon">✓</div>Crianças curiosas e criativas</div>
-      </div>
-      <div class="ideal-card no">
-        <p class="ideal-card-title">❌ Não é para:</p>
-        <div class="ideal-item"><div class="ideal-icon">✕</div>Quem busca apenas entretenimento sem aprendizado</div>
-        <div class="ideal-item"><div class="ideal-icon">✕</div>Quem não quer colocar a mão na massa</div>
-      </div>
-    </div>
-  </section>
-
-
 </div><!-- end .page -->
 
 <!-- OFERTA FINAL -->
 <div id="oferta" style="background:var(--dark);padding:40px 24px 48px;position:relative;overflow:hidden;max-width:480px;margin:0 auto;">
   <div style="position:absolute;width:250px;height:250px;background:rgba(232,55,42,0.08);border-radius:50%;filter:blur(60px);top:-60px;left:-60px;pointer-events:none;"></div>
   <div style="position:absolute;width:200px;height:200px;background:rgba(59,130,246,0.08);border-radius:50%;filter:blur(60px);bottom:-40px;right:-40px;pointer-events:none;"></div>
+
+  <!-- engrenagem decorativa sutil -->
+  <svg style="position:absolute;top:20px;right:20px;width:60px;opacity:0.06;animation:spin 18s linear infinite;" viewBox="0 0 50 50" fill="none" aria-hidden="true">
+    <path d="M25 15a10 10 0 100 20 10 10 0 000-20zm0 15a5 5 0 110-10 5 5 0 010 10z" fill="#fff"/>
+    <path d="M25 8v4M25 38v4M8 25h4M38 25h4M12.2 12.2l2.8 2.8M35 35l2.8 2.8M12.2 37.8l2.8-2.8M35 15l2.8-2.8" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+  </svg>
 
   <!-- countdown -->
   <div style="background:var(--red);border-radius:12px;padding:12px 16px;text-align:center;margin-bottom:24px;">
@@ -339,22 +502,13 @@
     <div style="display:flex;align-items:center;gap:10px;"><span style="width:20px;height:20px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;flex-shrink:0;">🎁</span><span style="font-size:13px;color:rgba(255,255,255,0.9);font-weight:600;">Bônus 5 — 100 Atividades Criativas</span></div>
   </div>
 
-  <!-- CTA CHECKOUT -->
-  <a href="<!-- LINK_PAGAMENTO -->" style="display:block;width:100%;background:#16a34a;color:#fff;font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;text-transform:uppercase;letter-spacing:0.8px;padding:20px 24px;border-radius:14px;text-align:center;text-decoration:none;box-shadow:0 6px 24px rgba(22,163,74,0.45);position:relative;overflow:hidden;margin-bottom:8px;animation:pulse-btn 2s ease-in-out infinite;">
+  <!-- CTA -->
+  <a href="<!-- LINK_PAGAMENTO -->" style="display:block;width:100%;background:#16a34a;color:#fff;font-family:'Nunito',sans-serif;font-size:clamp(13px,4vw,16px);font-weight:900;text-transform:uppercase;letter-spacing:0.8px;padding:20px 16px;border-radius:14px;text-align:center;text-decoration:none;box-shadow:0 6px 24px rgba(22,163,74,0.45);position:relative;overflow:hidden;margin-bottom:8px;animation:pulse-btn 2s ease-in-out infinite;">
     🚀 Quero Acessar Agora por R$ 9,90
   </a>
   <p style="text-align:center;font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:24px;">⚡ Acesso imediato após o pagamento</p>
 
-  <!-- selos -->
-  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:20px;">
-    <div style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.06);border-radius:20px;padding:6px 12px;"><span style="font-size:13px;">🔒</span><span style="font-size:10px;color:rgba(255,255,255,0.7);font-weight:700;">Pagamento Seguro</span></div>
-    <div style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.06);border-radius:20px;padding:6px 12px;"><span style="font-size:13px;">⚡</span><span style="font-size:10px;color:rgba(255,255,255,0.7);font-weight:700;">Acesso Imediato</span></div>
-    <div style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.06);border-radius:20px;padding:6px 12px;"><span style="font-size:13px;">♾️</span><span style="font-size:10px;color:rgba(255,255,255,0.7);font-weight:700;">Acesso Vitalício</span></div>
-    <div style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.06);border-radius:20px;padding:6px 12px;"><span style="font-size:13px;">🔁</span><span style="font-size:10px;color:rgba(255,255,255,0.7);font-weight:700;">Garantia 7 Dias</span></div>
-    <div style="display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.06);border-radius:20px;padding:6px 12px;"><span style="font-size:13px;">📚</span><span style="font-size:10px;color:rgba(255,255,255,0.7);font-weight:700;">Metodologia Didática</span></div>
-  </div>
-
-  <!-- pagamentos -->
+  <!-- métodos de pagamento -->
   <p style="text-align:center;font-size:10px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Formas de pagamento</p>
   <div style="display:flex;justify-content:center;gap:8px;">
     <span style="background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);font-size:11px;font-weight:700;padding:6px 14px;border-radius:8px;">💳 Cartão</span>
@@ -368,219 +522,139 @@
   <h2 class="faq-title">❓ Perguntas Frequentes</h2>
   <p class="faq-subtitle">Tire suas dúvidas antes de garantir o acesso</p>
   <div class="faq-list">
-
-    <div class="faq-item">
-      <button class="faq-btn" aria-expanded="false">
-        <span class="faq-btn-text">1. Preciso de conhecimento técnico?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-body"><p class="faq-body-inner">Não! O guia foi criado para qualquer pessoa, mesmo sem nenhuma experiência em robótica. Tudo é explicado em vídeo, passo a passo, de forma simples e didática.</p></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-btn" aria-expanded="false">
-        <span class="faq-btn-text">2. Preciso comprar kits caros ou equipamentos específicos?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-body"><p class="faq-body-inner">Não. Os projetos foram pensados para usar materiais simples e baratos que você já tem em casa ou encontra com facilidade — papelão, fios, pilhas, pequenos motores e objetos do dia a dia.</p></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-btn" aria-expanded="false">
-        <span class="faq-btn-text">3. Como recebo o material após o pagamento?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-body"><p class="faq-body-inner">Logo após a confirmação do pagamento, você recebe um e-mail com o link de acesso. Não precisa esperar entrega nem instalar nada — tudo online, na palma da mão.</p></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-btn" aria-expanded="false">
-        <span class="faq-btn-text">4. O acesso é imediato?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-body"><p class="faq-body-inner">Sim! Assim que o pagamento for processado — seja por Pix, cartão ou boleto compensado — o acesso ao conteúdo completo é liberado automaticamente.</p></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-btn" aria-expanded="false">
-        <span class="faq-btn-text">5. Preciso assistir tudo de uma vez?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-body"><p class="faq-body-inner">De jeito nenhum! O acesso é vitalício. Você assiste no seu ritmo, quando quiser e quantas vezes precisar. Cada projeto é independente, então é só escolher o que mais animar seu filho.</p></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-btn" aria-expanded="false">
-        <span class="faq-btn-text">6. Posso acessar pelo celular ou computador?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-body"><p class="faq-body-inner">Sim! O conteúdo funciona em qualquer dispositivo — celular, tablet ou computador. Basta ter internet e você já consegue assistir a qualquer hora.</p></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-btn" aria-expanded="false">
-        <span class="faq-btn-text">7. É um curso ou aulas longas?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-body"><p class="faq-body-inner">Não é um curso com aulas longas e teóricas. São vídeos práticos e diretos ao ponto, mostrando exatamente como montar cada projeto. Nada de enrolação — só mão na massa!</p></div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-btn" aria-expanded="false">
-        <span class="faq-btn-text">8. Existe risco?</span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-body"><p class="faq-body-inner">Zero risco! Você tem 7 dias de garantia total. Se por qualquer motivo não ficar satisfeito, basta pedir o reembolso e devolvemos 100% do seu dinheiro, sem perguntas e sem burocracia.</p></div>
-    </div>
-
+    <div class="faq-item"><button class="faq-btn" aria-expanded="false"><span class="faq-btn-text">1. Preciso de conhecimento técnico?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-body-inner">Não! O guia foi criado para qualquer pessoa, mesmo sem nenhuma experiência em robótica. Tudo é explicado em vídeo, passo a passo, de forma simples e didática.</p></div></div>
+    <div class="faq-item"><button class="faq-btn" aria-expanded="false"><span class="faq-btn-text">2. Preciso comprar kits caros?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-body-inner">Não. Os projetos foram pensados para usar materiais simples e baratos que você já tem em casa — papelão, fios, pilhas, pequenos motores e objetos do dia a dia.</p></div></div>
+    <div class="faq-item"><button class="faq-btn" aria-expanded="false"><span class="faq-btn-text">3. Como recebo o material após o pagamento?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-body-inner">Logo após a confirmação do pagamento, você recebe um e-mail com o link de acesso. Tudo online, na palma da mão.</p></div></div>
+    <div class="faq-item"><button class="faq-btn" aria-expanded="false"><span class="faq-btn-text">4. O acesso é imediato?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-body-inner">Sim! Assim que o pagamento for processado — seja por Pix, cartão ou boleto — o acesso é liberado automaticamente.</p></div></div>
+    <div class="faq-item"><button class="faq-btn" aria-expanded="false"><span class="faq-btn-text">5. Preciso assistir tudo de uma vez?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-body-inner">De jeito nenhum! O acesso é vitalício. Você assiste no seu ritmo, quando quiser e quantas vezes precisar.</p></div></div>
+    <div class="faq-item"><button class="faq-btn" aria-expanded="false"><span class="faq-btn-text">6. Funciona no celular?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-body-inner">Sim! O conteúdo funciona em qualquer dispositivo — celular, tablet ou computador. Basta ter internet.</p></div></div>
+    <div class="faq-item"><button class="faq-btn" aria-expanded="false"><span class="faq-btn-text">7. É um curso com aulas longas?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-body-inner">Não. São vídeos práticos e diretos, mostrando exatamente como montar cada projeto. Nada de enrolação — só mão na massa!</p></div></div>
+    <div class="faq-item"><button class="faq-btn" aria-expanded="false"><span class="faq-btn-text">8. Existe risco?</span><span class="faq-icon">+</span></button><div class="faq-body"><p class="faq-body-inner">Zero risco! Você tem 7 dias de garantia total. Se não ficar satisfeito, devolvemos 100% do seu dinheiro, sem perguntas.</p></div></div>
   </div>
 </section>
 
 <!-- RODAPÉ -->
 <footer class="site-footer">
+  <img src="https://doram.shop/wp-content/uploads/2026/03/grok-image-9918e3d7-8edc-44c6-a7fc-5d907c629633-removebg-preview.png" alt="Pequenos Gênios" loading="lazy" width="56" height="56">
   <p>© 2026 <span>Pequenos Gênios</span> — Todos os direitos reservados</p>
 </footer>
 
 <script>
-  // ── FAQ ACCORDION ─────────────────────────────────────────────────────
+  // ── FAQ ──────────────────────────────────────────────────────────────
   document.querySelectorAll('.faq-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.closest('.faq-item');
       const body = item.querySelector('.faq-body');
       const inner = item.querySelector('.faq-body-inner');
       const isOpen = item.classList.contains('open');
-      // Fecha todos
-      document.querySelectorAll('.faq-item.open').forEach(openItem => {
-        openItem.classList.remove('open');
-        openItem.querySelector('.faq-body').style.maxHeight = '0';
-        openItem.querySelector('.faq-btn').setAttribute('aria-expanded', 'false');
+      document.querySelectorAll('.faq-item.open').forEach(o => {
+        o.classList.remove('open');
+        o.querySelector('.faq-body').style.maxHeight = '0';
+        o.querySelector('.faq-btn').setAttribute('aria-expanded','false');
       });
-      // Abre o clicado (se estava fechado)
       if (!isOpen) {
         item.classList.add('open');
         body.style.maxHeight = (inner.scrollHeight + 32) + 'px';
-        btn.setAttribute('aria-expanded', 'true');
+        btn.setAttribute('aria-expanded','true');
       }
     });
   });
 
-  // ── SMOOTH SCROLL (suave, com easing manual) ──────────────────────────
-  function smoothScrollTo(targetId) {
-    const el = document.getElementById(targetId);
+  // ── SMOOTH SCROLL ────────────────────────────────────────────────────
+  function smoothScrollTo(id) {
+    const el = document.getElementById(id);
     if (!el) return;
     const start = window.scrollY;
     const end = el.getBoundingClientRect().top + start - 8;
-    const duration = 900; // ms
-    let startTime = null;
-
-    function easeInOutCubic(t) {
-      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-    }
-
-    function step(ts) {
-      if (!startTime) startTime = ts;
-      const elapsed = ts - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      window.scrollTo(0, start + (end - start) * easeInOutCubic(progress));
-      if (progress < 1) requestAnimationFrame(step);
-    }
+    const dur = 900; let t0 = null;
+    const ease = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+    const step = ts => {
+      if (!t0) t0 = ts;
+      const p = Math.min((ts-t0)/dur,1);
+      window.scrollTo(0, start + (end-start)*ease(p));
+      if (p < 1) requestAnimationFrame(step);
+    };
     requestAnimationFrame(step);
   }
-
   document.querySelectorAll('.smooth-scroll').forEach(btn => {
-    btn.addEventListener('click', () => {
-      smoothScrollTo(btn.dataset.target);
-    });
+    btn.addEventListener('click', () => smoothScrollTo(btn.dataset.target));
   });
 
-  // ── HEADLINE CHAR BY CHAR ─────────────────────────────────────────────
+  // ── HEADLINE CHAR BY CHAR ────────────────────────────────────────────
   const hl = document.getElementById('headline');
   const tmp = document.createElement('div');
   tmp.innerHTML = hl.innerHTML;
   function wrapChars(node) {
     if (node.nodeType === 3) {
       const frag = document.createDocumentFragment();
-      node.textContent.split('').forEach((ch, i) => {
-        if (ch === ' ') { frag.appendChild(document.createTextNode(' ')); }
-        else { const s = document.createElement('span'); s.className = 'typed-char'; s.textContent = ch; s.style.animationDelay = (i * 0.03) + 's'; frag.appendChild(s); }
+      node.textContent.split('').forEach((ch,i) => {
+        if (ch===' ') { frag.appendChild(document.createTextNode(' ')); }
+        else { const s=document.createElement('span'); s.className='typed-char'; s.textContent=ch; s.style.animationDelay=(i*0.03)+'s'; frag.appendChild(s); }
       });
       return frag;
-    } else if (node.nodeType === 1) {
-      const c = node.cloneNode(false);
-      node.childNodes.forEach(ch => c.appendChild(wrapChars(ch)));
+    } else if (node.nodeType===1) {
+      const c=node.cloneNode(false);
+      node.childNodes.forEach(ch=>c.appendChild(wrapChars(ch)));
       return c;
     }
     return node.cloneNode(true);
   }
-  hl.innerHTML = '';
-  tmp.childNodes.forEach(n => hl.appendChild(wrapChars(n)));
+  hl.innerHTML='';
+  tmp.childNodes.forEach(n=>hl.appendChild(wrapChars(n)));
 
-  // ── DEPOIMENTOS DOTS ──────────────────────────────────────────────────
-  const depCarrossel = document.getElementById('depCarrossel');
-  const depDots = document.querySelectorAll('.dep-dot');
-  if (depCarrossel) {
-    depCarrossel.addEventListener('scroll', () => {
-      const index = Math.round(depCarrossel.scrollLeft / 274);
-      depDots.forEach((d, i) => {
-        d.style.background = i === index ? 'var(--red)' : '#ddd';
-        d.style.width = i === index ? '20px' : '8px';
+  // ── DEPOIMENTOS DOTS ─────────────────────────────────────────────────
+  const dc = document.getElementById('depCarrossel');
+  const dots = document.querySelectorAll('.dep-dot');
+  if (dc) {
+    dc.addEventListener('scroll', () => {
+      const i = Math.round(dc.scrollLeft/274);
+      dots.forEach((d,j) => {
+        d.style.background = j===i ? 'var(--red)' : '#ddd';
+        d.style.width = j===i ? '20px' : '8px';
         d.style.borderRadius = '4px';
       });
-    }, { passive: true });
+    }, { passive:true });
   }
 
-  // ── COUNTDOWN ─────────────────────────────────────────────────────────
-  let secs = 14 * 60 + 59;
+  // ── COUNTDOWN ────────────────────────────────────────────────────────
+  let secs = 14*60+59;
   const cd = document.getElementById('countdown');
   if (cd) {
     setInterval(() => {
-      if (secs <= 0) secs = 14 * 60 + 59;
+      if (secs<=0) secs=14*60+59;
       secs--;
-      const m = String(Math.floor(secs / 60)).padStart(2,'0');
-      const s = String(secs % 60).padStart(2,'0');
-      cd.textContent = `00:${m}:${s}`;
+      const m=String(Math.floor(secs/60)).padStart(2,'0');
+      const s=String(secs%60).padStart(2,'0');
+      cd.textContent=`00:${m}:${s}`;
     }, 1000);
   }
 
-  // ── VÍDEOS (lazy load + click) ─────────────────────────────────────────
-  const cards = document.querySelectorAll('.video-card');
-  cards.forEach(card => {
+  // ── VÍDEOS (lazy load + gear player) ─────────────────────────────────
+  const vcards = document.querySelectorAll('.video-card');
+  vcards.forEach(card => {
     const v = card.querySelector('video');
-
-    // Lazy load via IntersectionObserver
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && v.dataset.src && !v.src) {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting && v.dataset.src && !v.src) {
           v.src = v.dataset.src;
           v.load();
-          observer.disconnect();
+          obs.disconnect();
         }
       });
-    }, { rootMargin: '200px' });
-    observer.observe(card);
+    }, { rootMargin:'200px' });
+    obs.observe(card);
 
     card.addEventListener('click', () => {
-      cards.forEach(o => {
-        if (o !== card) {
-          const ov = o.querySelector('video');
-          ov.pause();
-          o.classList.remove('playing');
-        }
+      vcards.forEach(o => {
+        if (o!==card) { o.querySelector('video').pause(); o.classList.remove('playing'); }
       });
       if (v.paused) {
-        v.play().then(() => {
-          card.classList.add('playing');
-        }).catch(() => {
-          v.muted = true;
-          v.play().then(() => card.classList.add('playing'));
+        v.play().then(()=>card.classList.add('playing')).catch(()=>{
+          v.muted=true; v.play().then(()=>card.classList.add('playing'));
         });
-      } else {
-        v.pause();
-        card.classList.remove('playing');
-      }
+      } else { v.pause(); card.classList.remove('playing'); }
     });
-
-    v.addEventListener('ended', () => card.classList.remove('playing'));
+    v.addEventListener('ended', ()=>card.classList.remove('playing'));
   });
 </script>
 </body>

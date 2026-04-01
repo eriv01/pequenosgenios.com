@@ -73,8 +73,8 @@
     .eyebrow { position: relative; z-index: 1; font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
     .eyebrow::before { content: ''; width: 24px; height: 2px; background: var(--orange); border-radius: 2px; display: inline-block; flex-shrink: 0; }
 
-    /* headline — overflow-wrap garante que não corta no meio de palavras */
-    .headline { position: relative; z-index: 1; font-size: clamp(17px, 4.8vw, 26px); font-weight: 900; line-height: 1.35; color: var(--dark); margin-bottom: 16px; word-break: keep-all; overflow-wrap: normal; hyphens: none; white-space: normal; }
+    /* headline — nunca corta palavras */
+    .headline { position: relative; z-index: 1; font-size: clamp(15px, 4.2vw, 26px); font-weight: 900; line-height: 1.35; color: var(--dark); margin-bottom: 16px; word-break: normal; overflow-wrap: normal; hyphens: none; white-space: normal; }
     .headline .highlight { color: var(--red); position: relative; display: inline; }
     .headline .highlight::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 3px; background: var(--red); border-radius: 2px; animation: underlineGrow 1.2s ease 0.8s forwards; }
     @keyframes underlineGrow { to { width: 100%; } }
@@ -128,44 +128,31 @@
     .video-track { display: flex; gap: 14px; padding: 12px 20px 16px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; align-items: center; }
     .video-track::-webkit-scrollbar { display: none; }
 
-    /* GEAR-SHAPED VIDEO CARDS */
+    /* VIDEO CARDS — retangular com cantos arredondados */
     .video-card {
       flex-shrink: 0;
-      width: 148px;
-      height: 148px;
+      width: 140px;
+      height: 220px;
       position: relative;
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
       scroll-snap-align: center;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--dark);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+      border: 2.5px solid transparent;
     }
     .video-card:active { transform: scale(0.95); }
-
-    /* gear clip path via SVG clipPath */
-    .video-card .gear-clip {
-      width: 148px;
-      height: 148px;
-      border-radius: 50%;
-      overflow: hidden;
-      position: relative;
-      /* gear outline via box-shadow + border trick */
-      clip-path: polygon(
-        50% 0%, 61% 4%, 68% 2%, 74% 8%, 80% 7%, 84% 14%,
-        91% 15%, 93% 23%, 99% 27%, 98% 35%, 100% 42%,
-        96% 49%, 100% 56%, 97% 63%, 99% 71%, 93% 76%,
-        91% 84%, 84% 87%, 80% 94%, 74% 93%, 68% 99%,
-        61% 97%, 50% 100%, 39% 97%, 32% 99%, 26% 93%,
-        20% 94%, 16% 87%, 9% 84%, 7% 76%, 1% 71%,
-        3% 63%, 0% 56%, 4% 49%, 0% 42%, 2% 35%,
-        1% 27%, 7% 23%, 9% 15%, 16% 14%, 20% 7%,
-        26% 8%, 32% 2%, 39% 4%
-      );
-      border: 3px solid transparent;
-      transition: box-shadow 0.2s;
+    .video-card.playing {
+      border-color: var(--red);
+      box-shadow: 0 4px 20px rgba(232,55,42,0.45);
     }
-    .video-card.playing .gear-clip {
-      outline: 3px solid var(--red);
-      box-shadow: 0 0 0 3px var(--red), 0 6px 24px rgba(232,55,42,0.4);
+    .video-card .gear-clip {
+      width: 100%;
+      height: 100%;
+      position: relative;
     }
     .video-card video {
       width: 100%;
@@ -580,27 +567,38 @@
     btn.addEventListener('click', () => smoothScrollTo(btn.dataset.target));
   });
 
-  // ── HEADLINE CHAR BY CHAR ────────────────────────────────────────────
+  // ── HEADLINE WORD BY WORD (evita corte de letras) ───────────────────
   const hl = document.getElementById('headline');
   const tmp = document.createElement('div');
   tmp.innerHTML = hl.innerHTML;
-  function wrapChars(node) {
+  let wordIndex = 0;
+  function wrapWords(node) {
     if (node.nodeType === 3) {
       const frag = document.createDocumentFragment();
-      node.textContent.split('').forEach((ch,i) => {
-        if (ch===' ') { frag.appendChild(document.createTextNode(' ')); }
-        else { const s=document.createElement('span'); s.className='typed-char'; s.textContent=ch; s.style.animationDelay=(i*0.03)+'s'; frag.appendChild(s); }
+      const words = node.textContent.split(/(\s+)/);
+      words.forEach(w => {
+        if (/^\s+$/.test(w)) {
+          frag.appendChild(document.createTextNode(w));
+        } else {
+          const span = document.createElement('span');
+          span.className = 'typed-char';
+          span.textContent = w;
+          span.style.animationDelay = (wordIndex * 0.08) + 's';
+          span.style.display = 'inline-block';
+          wordIndex++;
+          frag.appendChild(span);
+        }
       });
       return frag;
-    } else if (node.nodeType===1) {
-      const c=node.cloneNode(false);
-      node.childNodes.forEach(ch=>c.appendChild(wrapChars(ch)));
+    } else if (node.nodeType === 1) {
+      const c = node.cloneNode(false);
+      node.childNodes.forEach(ch => c.appendChild(wrapWords(ch)));
       return c;
     }
     return node.cloneNode(true);
   }
-  hl.innerHTML='';
-  tmp.childNodes.forEach(n=>hl.appendChild(wrapChars(n)));
+  hl.innerHTML = '';
+  tmp.childNodes.forEach(n => hl.appendChild(wrapWords(n)));
 
   // ── DEPOIMENTOS DOTS ─────────────────────────────────────────────────
   const dc = document.getElementById('depCarrossel');
